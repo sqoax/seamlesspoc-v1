@@ -1,0 +1,59 @@
+---
+import Base from '../layouts/Base.astro';
+
+// Confirmation page for the no-JS Request Service path. States what happens
+// next and repeats the phone number. Response window is TBD (open item #9)
+// and renders flagged until set.
+---
+
+<Base
+  title="We have your service request | Seamless Point of Care"
+  description="Your service request is in. Seamless Point of Care will respond and schedule the visit."
+>
+  <section class="section">
+    <div class="container-text thanks">
+      <span class="kicker">Thanks</span>
+      <h1>We have your service request.</h1>
+      <p class="lead text-secondary">
+        A person will read it and reply within
+        ⟦VERIFY: response window — open item #9⟧.
+      </p>
+      <ol class="next-steps">
+        <li><strong>We reply</strong> and ask anything we need for triage.</li>
+        <li><strong>We schedule the visit</strong> around your unit.</li>
+        <li><strong>We service the equipment</strong> — most major makes and models.</li>
+      </ol>
+      <p class="urgent">
+        Safety issue? Call <span class="num">⟦VERIFY: phone⟧</span> now.
+      </p>
+      <p><a href="/">Back to the homepage</a></p>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .thanks h1 {
+    margin-block-end: var(--space-2);
+  }
+
+  .thanks .lead {
+    margin-block-end: var(--space-4);
+  }
+
+  .next-steps {
+    list-style: none;
+    padding: 0;
+    margin-block-end: var(--space-4);
+  }
+
+  .next-steps li {
+    padding-block: var(--space-2);
+    border-block-start: 1px solid var(--color-rule);
+    font-size: var(--text-base);
+  }
+
+  .urgent {
+    font-weight: 600;
+    margin-block-end: var(--space-3);
+  }
+</style>

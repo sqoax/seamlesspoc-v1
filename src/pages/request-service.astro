@@ -1,0 +1,471 @@
+---
+import Base from '../layouts/Base.astro';
+
+// Request Service — the distinct path for existing customers and installed
+// equipment (Master Spec §2), per content-rules §6: facility, contact,
+// equipment/brand ("any make or model — including equipment we didn't
+// install"), issue, urgency. Phone fast-lane adjacent to submit. Same
+// endpoint-agnostic pattern as Start a Project (PUBLIC_FORM_ENDPOINT, open
+// item #11); no-JS fallback confirms at /thanks-service. Urgency options
+// describe the situation — they promise no response times (open item #9).
+
+const endpoint = import.meta.env.PUBLIC_FORM_ENDPOINT ?? '';
+
+const equipmentTypes = [
+  'Wall-mounted workstation or arm',
+  'Wall cabinet or desktop workstation',
+  'Mobile cart / workstation on wheels',
+  'Tracking board or clinical display',
+  'Patient room TV or display',
+  'Anesthesia or clinical equipment mount',
+  'Cable management',
+  'Digital signage or conference room',
+  'Other / not sure',
+];
+
+const urgencies = [
+  {
+    value: 'safety',
+    label: 'Safety issue',
+    detail: 'Something could fall, tip, or trip someone.',
+  },
+  {
+    value: 'out-of-service',
+    label: 'Out of service',
+    detail: 'The equipment is unusable.',
+  },
+  {
+    value: 'degraded',
+    label: 'Degraded',
+    detail: 'It works, but something is loose, drifting, or wearing out.',
+  },
+  {
+    value: 'routine',
+    label: 'Routine',
+    detail: 'Adjustment, relocation, or scheduled maintenance.',
+  },
+];
+---
+
+<Base
+  title="Request service on hospital mounts, carts, and displays | Seamless Point of Care"
+  description="Request service from Seamless Point of Care on most major makes and models — including equipment we didn't install. Repairs, adjustments, and maintenance for point-of-care hardware."
+>
+  <section class="page-header">
+    <div class="container">
+      <div class="header-copy">
+        <span class="kicker">Request service</span>
+        <h1>Get your equipment looked at.</h1>
+        <p class="lead text-secondary">
+          We service most major makes and models — including equipment we
+          didn&rsquo;t install. Tell us what&rsquo;s going on and we&rsquo;ll
+          take it from there.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container form-layout">
+      <form
+        class="service-form"
+        method="POST"
+        action={endpoint || '/thanks-service'}
+        data-endpoint={endpoint}
+        novalidate
+      >
+        <input type="hidden" name="form" value="request-service" />
+
+        <!-- Honeypot -->
+        <div class="hp-field" aria-hidden="true">
+          <label for="company-website">Leave this field empty</label>
+          <input
+            type="text"
+            id="company-website"
+            name="company-website"
+            tabindex="-1"
+            autocomplete="off"
+          />
+        </div>
+
+        <fieldset class="form-section">
+          <legend>The equipment</legend>
+          <div class="field">
+            <label for="equipment-type">What needs service?</label>
+            <select id="equipment-type" name="equipment-type">
+              <option value="">Select one (optional)</option>
+              {equipmentTypes.map((t) => <option value={t}>{t}</option>)}
+            </select>
+          </div>
+          <div class="field">
+            <label for="make-model">
+              Manufacturer and model <span class="optional">(if known)</span>
+            </label>
+            <input
+              type="text"
+              id="make-model"
+              name="make-model"
+              placeholder="Any make or model — including equipment we didn't install"
+            />
+          </div>
+          <div class="field">
+            <label for="issue">What&rsquo;s going on?</label>
+            <textarea
+              id="issue"
+              name="issue"
+              rows="4"
+              required
+              aria-describedby="issue-error"
+              placeholder="e.g. the wall arm in room 412 won't hold position; cart wheel is dragging"
+            ></textarea>
+            <p class="error" id="issue-error" hidden>
+              Please describe the issue in a sentence or two.
+            </p>
+          </div>
+          <fieldset class="field sub-fieldset">
+            <legend class="sub-legend">How urgent is it?</legend>
+            {
+              urgencies.map((u) => (
+                <label class="checkbox-row">
+                  <input type="radio" name="urgency" value={u.value} />
+                  <span>
+                    <strong>{u.label}</strong> — {u.detail}
+                  </span>
+                </label>
+              ))
+            }
+          </fieldset>
+          <p class="safety-note text-secondary">
+            Safety issue? Don&rsquo;t wait on a form — call
+            <span class="num">⟦VERIFY: phone⟧</span>.
+          </p>
+        </fieldset>
+
+        <fieldset class="form-section">
+          <legend>Where and who</legend>
+          <div class="field">
+            <label for="facility">Facility or health system</label>
+            <input
+              type="text"
+              id="facility"
+              name="facility"
+              required
+              autocomplete="organization"
+              aria-describedby="facility-error"
+            />
+            <p class="error" id="facility-error" hidden>
+              Please add your facility or health system.
+            </p>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label for="name">Name</label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                required
+                autocomplete="name"
+                aria-describedby="name-error"
+              />
+              <p class="error" id="name-error" hidden>Please add your name.</p>
+            </div>
+            <div class="field">
+              <label for="phone">Phone <span class="optional">(optional)</span></label>
+              <input type="tel" id="phone" name="phone" autocomplete="tel" />
+            </div>
+          </div>
+          <div class="field">
+            <label for="email">Email</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              required
+              autocomplete="email"
+              aria-describedby="email-error"
+            />
+            <p class="error" id="email-error" hidden>
+              Please add a work email we can reply to.
+            </p>
+          </div>
+        </fieldset>
+
+        <div class="form-footer">
+          <button class="btn btn-primary" type="submit">Request service</button>
+          <p class="phone-fallback text-secondary">
+            Faster by phone: <span class="num">⟦VERIFY: phone⟧</span>
+          </p>
+        </div>
+
+        <p class="form-status" role="status" aria-live="polite" hidden></p>
+      </form>
+
+      <aside class="form-aside">
+        <h2 class="aside-heading">Good to know</h2>
+        <ul class="aside-facts">
+          <li>
+            <strong>Any make or model.</strong>
+            <span class="text-secondary">
+              If it holds technology at the point of care, we can usually
+              service it — whoever installed it.
+            </span>
+          </li>
+          <li>
+            <strong>We reply within ⟦VERIFY: response window — open item #9⟧.</strong>
+            <span class="text-secondary">
+              A person reads every request.
+            </span>
+          </li>
+          <li>
+            <strong>Keeping equipment in service.</strong>
+            <span class="text-secondary">
+              Ask about a Maintenance Visit or the Asset Protection Plan.
+            </span>
+          </li>
+        </ul>
+        <div class="aside-service card">
+          <h3>Planning something new instead?</h3>
+          <p class="text-secondary">
+            New rooms, rollouts, or hardware you don&rsquo;t own yet —
+            <a href="/start-a-project">start a project</a>.
+          </p>
+        </div>
+      </aside>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .page-header {
+    padding-block: var(--space-5) var(--space-4);
+    border-block-end: 1px solid var(--color-rule);
+  }
+
+  .header-copy h1 {
+    margin-block-end: var(--space-2);
+    max-width: 24ch;
+  }
+
+  .header-copy .lead {
+    max-width: 52ch;
+  }
+
+  /* Layout */
+  .form-layout {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-5);
+    align-items: start;
+  }
+
+  @media (min-width: 900px) {
+    .form-layout {
+      grid-template-columns: 1.5fr 1fr;
+    }
+  }
+
+  /* Form */
+  .form-section {
+    border: 0;
+    padding: 0;
+    margin: 0 0 var(--space-4);
+  }
+
+  .form-section > legend {
+    font-size: var(--text-lg);
+    font-weight: 620;
+    padding: 0;
+    margin-block-end: var(--space-2);
+  }
+
+  .sub-fieldset {
+    border: 0;
+    padding: 0;
+  }
+
+  .sub-legend {
+    font-size: var(--text-sm);
+    font-weight: 600;
+    padding: 0;
+    margin-block-end: var(--space-1);
+  }
+
+  .checkbox-row strong {
+    font-weight: 600;
+  }
+
+  .safety-note {
+    font-size: var(--text-sm);
+    font-weight: 600;
+    margin-block-start: var(--space-2);
+  }
+
+  .optional {
+    font-weight: 400;
+    color: var(--color-ink-2);
+  }
+
+  .field-row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0 var(--space-3);
+  }
+
+  @media (min-width: 640px) {
+    .field-row {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .form-footer {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--space-2) var(--space-3);
+    padding-block-start: var(--space-3);
+    border-block-start: 1px solid var(--color-rule);
+  }
+
+  .phone-fallback {
+    font-size: var(--text-sm);
+    margin: 0;
+  }
+
+  .form-status {
+    margin-block-start: var(--space-3);
+    padding: var(--space-2);
+    border-radius: var(--radius);
+    font-size: var(--text-sm);
+  }
+
+  .form-status.is-success {
+    background: var(--color-paper-2);
+    border: 1px solid var(--color-success);
+    color: var(--color-ink);
+  }
+
+  .form-status.is-error {
+    background: var(--color-paper-2);
+    border: 1px solid var(--color-error);
+    color: var(--color-ink);
+  }
+
+  /* Aside */
+  .aside-heading {
+    font-size: var(--text-lg);
+    margin-block-end: var(--space-2);
+  }
+
+  .aside-facts {
+    list-style: none;
+    padding: 0;
+    margin-block-end: var(--space-4);
+  }
+
+  .aside-facts li {
+    padding-block: var(--space-2);
+    border-block-start: 1px solid var(--color-rule);
+    font-size: var(--text-sm);
+    line-height: 1.5;
+  }
+
+  .aside-facts strong {
+    display: block;
+    margin-block-end: 0.125rem;
+  }
+
+  .aside-service {
+    padding: var(--space-3);
+  }
+
+  .aside-service h3 {
+    font-size: var(--text-base);
+    margin-block-end: 0.375rem;
+  }
+
+  .aside-service p {
+    font-size: var(--text-sm);
+  }
+</style>
+
+<script>
+  const form = document.querySelector('.service-form') as HTMLFormElement | null;
+
+  if (form) {
+    const requiredFields = ['issue', 'facility', 'name', 'email'];
+    const status = form.querySelector<HTMLElement>('.form-status');
+
+    const showStatus = (kind: 'success' | 'error', html: string) => {
+      if (!status) return;
+      status.hidden = false;
+      status.classList.remove('is-success', 'is-error');
+      status.classList.add(kind === 'success' ? 'is-success' : 'is-error');
+      status.innerHTML = html;
+      status.scrollIntoView({ block: 'nearest' });
+    };
+
+    const validate = (): boolean => {
+      let firstInvalid: HTMLElement | null = null;
+      for (const id of requiredFields) {
+        const input = form.querySelector<HTMLInputElement | HTMLTextAreaElement>(`#${id}`);
+        const error = document.getElementById(`${id}-error`);
+        const fieldWrap = input?.closest('.field');
+        const valid = !!input && input.checkValidity();
+        if (error) error.hidden = valid;
+        fieldWrap?.classList.toggle('has-error', !valid);
+        if (!valid && input && !firstInvalid) firstInvalid = input;
+      }
+      firstInvalid?.focus();
+      return !firstInvalid;
+    };
+
+    form.addEventListener('submit', async (event) => {
+      const endpoint = form.dataset.endpoint || '';
+
+      if (!validate()) {
+        event.preventDefault();
+        return;
+      }
+
+      const hp = form.querySelector<HTMLInputElement>('#company-website');
+      if (hp && hp.value) {
+        event.preventDefault();
+        return;
+      }
+
+      if (!endpoint) {
+        // Endpoint not configured yet (open item #11) — never fake a
+        // submission. Point to the phone instead.
+        event.preventDefault();
+        showStatus(
+          'error',
+          'The form isn&rsquo;t connected yet. Please call us — ⟦VERIFY: phone⟧ — or email ⟦VERIFY: email⟧.'
+        );
+        return;
+      }
+
+      event.preventDefault();
+      try {
+        const response = await fetch(endpoint, {
+          method: 'POST',
+          body: new FormData(form),
+          headers: { Accept: 'application/json' },
+        });
+        if (!response.ok) throw new Error(String(response.status));
+        form.querySelectorAll('fieldset, .form-footer').forEach((el) => {
+          (el as HTMLElement).hidden = true;
+        });
+        showStatus(
+          'success',
+          'Thanks — we have it. We&rsquo;ll respond within ⟦VERIFY: response window — open item #9⟧. If it&rsquo;s a safety issue, call ⟦VERIFY: phone⟧ now.'
+        );
+      } catch {
+        showStatus(
+          'error',
+          'That didn&rsquo;t go through. Please try again, or call ⟦VERIFY: phone⟧.'
+        );
+      }
+    });
+  }
+</script>
