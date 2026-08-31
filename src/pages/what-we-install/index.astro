@@ -1,0 +1,282 @@
+---
+import Base from '../../layouts/Base.astro';
+import SectionHeading from '../../components/SectionHeading.astro';
+import PhotoPlaceholder from '../../components/PhotoPlaceholder.astro';
+import CTABand from '../../components/CTABand.astro';
+
+// What We Install overview — the launch page representing all 8 approved
+// categories (Master Spec §3; taxonomy per content-rules §3). Individual
+// category pages are expansion, added as photos/content are ready; category
+// blocks carry the future subpage slugs as anchor ids so links stay stable.
+// No brand/manufacturer lists here — authorizations are unverified (open
+// item #5). No prices, no SKUs, no e-commerce patterns.
+
+const categories = [
+  {
+    slug: 'wall-mounted-workstations',
+    quoteLabel: 'wall-mounted workstations',
+    title: 'Wall-mounted workstations & arms',
+    outcome:
+      'Charting at the bedside without crowding the room. Arms fold flat against the wall when the room needs the space back.',
+    settings: ['Patient rooms', 'ICU', 'ED', 'Nurse stations'],
+    shot: 'wall arm with workstation in patient room, folded and extended views, floor visible',
+  },
+  {
+    slug: 'wall-cabinets-desktop',
+    quoteLabel: 'wall cabinets & desktop workstations',
+    title: 'Wall cabinets & desktop workstations',
+    outcome:
+      'Computing built into the wall — open for the shift, closed and secure after it. Desktop workstations where a full seated station earns its space.',
+    settings: ['Hallway alcoves', 'Med rooms', 'Registration', 'Clinics'],
+    shot: 'wall cabinet workstation in hallway alcove, shown open',
+  },
+  {
+    slug: 'mobile-carts-wows',
+    quoteLabel: 'mobile carts & WOWs',
+    title: 'Mobile carts & workstations on wheels',
+    outcome:
+      'The right cart for the workflow, fitted to the devices it carries and kept rolling through its service life.',
+    settings: ['Med-surg units', 'ICU', 'Pharmacy', 'Imaging'],
+    shot: 'workstation on wheels in corridor, clean cable run from post to devices',
+  },
+  {
+    slug: 'tracking-boards-displays',
+    quoteLabel: 'tracking boards & displays',
+    title: 'Tracking boards & clinical displays',
+    outcome:
+      'Unit status the whole team can read at a glance — mounted where the workflow actually happens, wired without exposed cable.',
+    settings: ['ED', 'OR & perioperative', 'Labor & delivery', 'Nurse stations'],
+    shot: 'large tracking board mounted at nurse station, no readable patient data on screen',
+  },
+  {
+    slug: 'patient-room-tvs',
+    quoteLabel: 'patient room TVs',
+    title: 'Patient room TVs & displays',
+    outcome:
+      'Mounted, powered, and wired with nothing exposed — sized and placed for the bed, not the wall.',
+    settings: ['Patient rooms', 'Family waiting areas'],
+    shot: 'patient room TV on articulating mount, concealed wiring',
+  },
+  {
+    slug: 'anesthesia-clinical-mounts',
+    quoteLabel: 'anesthesia & clinical mounts',
+    title: 'Anesthesia & clinical equipment mounts',
+    outcome:
+      'Displays and computers mounted where anesthesia teams work, without interfering with the equipment underneath. ⟦VERIFY: clinical-equipment mounting scope and manufacturer requirements — open item #7⟧',
+    settings: ['OR', 'Procedure rooms'],
+    shot: 'monitor and PC mount on anesthesia machine in OR, no PHI on screens',
+  },
+  {
+    slug: 'cable-management-hardware',
+    quoteLabel: 'cable management',
+    title: 'Cable management hardware',
+    outcome:
+      'The hardware that gets cables stowed, bundled, and off the floor — for equipment we installed and equipment we didn’t.',
+    settings: ['Nurse stations', 'Patient rooms', 'Carts & mobile equipment'],
+    shot: 'after shot of cable cleanup under charting desk, floor completely clear',
+  },
+  {
+    slug: 'digital-signage-conference',
+    quoteLabel: 'signage & conference rooms',
+    title: 'Digital signage & conference rooms',
+    outcome:
+      'Displays for the spaces where care is coordinated — wayfinding, education, and the rooms where your teams meet.',
+    settings: ['Conference & education rooms', 'Lobbies', 'Cafeterias'],
+    shot: 'conference room display install, cabling concealed, room in natural light',
+  },
+];
+---
+
+<Base
+  title="Hospital workstation, cart, display, and mount installation | Seamless Point of Care"
+  description="Eight categories of point-of-care hardware for hospitals: wall-mounted workstations, cabinets, carts, tracking boards, patient TVs, anesthesia mounts, cable management, and signage — selected, supplied, installed, maintained."
+>
+  <!-- Page header -->
+  <section class="page-header">
+    <div class="container">
+      <div class="header-copy">
+        <span class="kicker">What we install</span>
+        <h1>If it holds technology at the point of care, it&rsquo;s ours to install.</h1>
+        <p class="lead text-secondary">
+          Eight categories of hardware, one way of working: we help you choose
+          it, supply it on one quote, install it around care, and maintain it
+          for the life of the equipment.
+        </p>
+      </div>
+      <nav class="jump-nav" aria-label="Install categories">
+        {categories.map((cat) => <a href={`#${cat.slug}`}>{cat.title}</a>)}
+      </nav>
+    </div>
+  </section>
+
+  <!-- 8 category blocks -->
+  <section class="section" aria-label="Install categories in detail">
+    <div class="container">
+      <div class="category-grid">
+        {
+          categories.map((cat, i) => (
+            <article class="category-block card" id={cat.slug}>
+              <PhotoPlaceholder shot={cat.shot} ratio="4x3" />
+              <div class="category-body">
+                <span class="kicker num">{`0${i + 1}`}</span>
+                <h2>{cat.title}</h2>
+                <p class="category-outcome text-secondary">{cat.outcome}</p>
+                <p class="category-settings">
+                  <strong>Where it&rsquo;s used:</strong>{' '}
+                  {cat.settings.join(' · ')}
+                </p>
+                <a
+                  class="category-cta"
+                  href={`/start-a-project?category=${cat.slug}`}
+                >
+                  Get a quote on {cat.quoteLabel}
+                </a>
+              </div>
+            </article>
+          ))
+        }
+      </div>
+      <p class="category-note text-secondary">
+        ⟦VERIFY: virtual nursing / telehealth hardware — in or out of this
+        category set (open item #12)⟧
+      </p>
+    </div>
+  </section>
+
+  <!-- Already-installed band -->
+  <section class="section section-alt" aria-labelledby="owned-heading">
+    <div class="container owned-band">
+      <div>
+        <SectionHeading
+          kicker="Already installed?"
+          heading="We service what you already own"
+          lead="Most major makes and models — including hardware we didn't supply or install."
+        />
+      </div>
+      <div class="owned-band-action">
+        <a class="btn btn-secondary" href="/request-service">Request service</a>
+      </div>
+    </div>
+  </section>
+
+  <CTABand />
+</Base>
+
+<style>
+  .page-header {
+    padding-block: var(--space-5) var(--space-4);
+    border-block-end: 1px solid var(--color-rule);
+  }
+
+  .header-copy {
+    margin-block-end: var(--space-3);
+  }
+
+  .header-copy h1 {
+    margin-block-end: var(--space-2);
+    max-width: 26ch;
+  }
+
+  .header-copy .lead {
+    max-width: 56ch;
+  }
+
+  .jump-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1) var(--space-3);
+    padding-block-start: var(--space-2);
+    border-block-start: 1px solid var(--color-rule);
+  }
+
+  .jump-nav a {
+    font-size: var(--text-sm);
+    font-weight: 550;
+    text-decoration: none;
+  }
+
+  .jump-nav a:hover {
+    text-decoration: underline;
+  }
+
+  /* Category grid */
+  .category-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-3);
+  }
+
+  @media (min-width: 768px) {
+    .category-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--space-4);
+    }
+  }
+
+  .category-block {
+    overflow: hidden;
+    scroll-margin-top: 7rem;
+  }
+
+  .category-body {
+    padding: var(--space-3);
+  }
+
+  .category-body .kicker {
+    margin-block-end: 0.375rem;
+  }
+
+  .category-body h2 {
+    font-size: var(--text-lg);
+    margin-block-end: var(--space-1);
+  }
+
+  .category-outcome {
+    font-size: var(--text-sm);
+    line-height: 1.55;
+    margin-block-end: var(--space-2);
+  }
+
+  .category-settings {
+    font-size: var(--text-sm);
+    padding-block: var(--space-2);
+    border-block-start: 1px solid var(--color-rule);
+    margin-block-end: var(--space-2);
+  }
+
+  .category-settings strong {
+    font-weight: 600;
+  }
+
+  .category-cta {
+    font-size: var(--text-sm);
+    font-weight: 550;
+  }
+
+  .category-note {
+    font-size: var(--text-xs);
+    margin-block-start: var(--space-3);
+  }
+
+  /* Already-installed band */
+  .owned-band {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-2);
+    align-items: center;
+  }
+
+  @media (min-width: 900px) {
+    .owned-band {
+      grid-template-columns: 2fr 1fr;
+    }
+
+    .owned-band-action {
+      justify-self: end;
+    }
+  }
+
+  .owned-band :global(.section-heading) {
+    margin-block-end: 0;
+  }
+</style>

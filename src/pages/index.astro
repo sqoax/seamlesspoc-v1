@@ -64,9 +64,9 @@ const installCategories = [
 ];
 
 const problemEntries = [
-  { statement: 'Our cables are a safety problem.', href: '/what-we-install/cable-management-hardware' },
+  { statement: 'Our cables are a safety problem.', href: '/what-we-install#cable-management-hardware' },
   { statement: "We're opening a new unit.", href: '/start-a-project' },
-  { statement: 'We need a PC on the anesthesia machine.', href: '/what-we-install/anesthesia-clinical-mounts' },
+  { statement: 'We need a PC on the anesthesia machine.', href: '/what-we-install#anesthesia-clinical-mounts' },
   { statement: "IT doesn't have the hands for this rollout.", href: '/services' },
   { statement: "A mount is broken — and it isn't even ours.", href: '/request-service' },
 ];
@@ -133,7 +133,7 @@ const behaviors = [
             <InstallCard
               title={cat.title}
               outcome={cat.outcome}
-              href={`/what-we-install/${cat.slug}`}
+              href={`/what-we-install#${cat.slug}`}
               shot={cat.shot}
             />
           ))
