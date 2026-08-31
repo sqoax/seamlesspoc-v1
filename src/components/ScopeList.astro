@@ -1,0 +1,118 @@
+---
+// Do/don't scope block (Services + How We Work). The working lists come from
+// content-rules §2; the statement as a whole awaits leadership approval
+// (Master Spec open item #6). The cabling-scope and trash-removal lines are
+// unresolved and render only as flagged VERIFY items.
+const doItems = [
+  'Supply and install mounts, arms, cabinets, and carts',
+  'Supply and install tracking boards, patient TVs, displays, and signage',
+  'Cable management: stow, bundle, and conceal',
+  'Maintain and repair most major makes and models — including equipment we didn’t install',
+  '⟦VERIFY: cabling scope line — open item #6⟧',
+];
+
+const dontItems = [
+  'Supply computers or monitors',
+  'PC imaging or software (Epic, etc.)',
+  'Phones or multi-function printers',
+  'Clinical device deployment',
+  '⟦VERIFY: trash-removal line — open item #6⟧',
+];
+---
+
+<div class="scope-block">
+  <div class="scope-col card">
+    <h3>
+      <svg
+        width="20"
+        height="20"
+        viewBox="0 0 20 20"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+      >
+        <path d="M4 10.5 8.5 15 16 5.5"></path>
+      </svg>
+      What we do
+    </h3>
+    <ul>
+      {doItems.map((item) => <li>{item}</li>)}
+    </ul>
+  </div>
+  <div class="scope-col card">
+    <h3>
+      <svg
+        width="20"
+        height="20"
+        viewBox="0 0 20 20"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+      >
+        <path d="M5 5l10 10M15 5L5 15"></path>
+      </svg>
+      What we don&rsquo;t
+    </h3>
+    <ul>
+      {dontItems.map((item) => <li>{item}</li>)}
+    </ul>
+  </div>
+</div>
+<p class="scope-note text-secondary">
+  Scope statement pending leadership approval (open item #6) — wording may be
+  adjusted before launch.
+</p>
+
+<style>
+  .scope-block {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-3);
+  }
+
+  @media (min-width: 640px) {
+    .scope-block {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .scope-col {
+    padding: var(--space-3);
+  }
+
+  .scope-col h3 {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: var(--text-base);
+    margin-block-end: var(--space-2);
+    color: var(--color-primary-2);
+  }
+
+  .scope-col svg {
+    flex-shrink: 0;
+  }
+
+  .scope-col ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .scope-col li {
+    font-size: var(--text-sm);
+    line-height: 1.5;
+    padding-block: 0.5rem;
+    border-block-start: 1px solid var(--color-rule);
+  }
+
+  .scope-note {
+    font-size: var(--text-xs);
+    margin-block-start: var(--space-2);
+  }
+</style>

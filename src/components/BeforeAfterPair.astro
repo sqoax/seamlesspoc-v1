@@ -1,0 +1,65 @@
+---
+import PhotoPlaceholder from './PhotoPlaceholder.astro';
+
+// Before/after pair — first-class component per design-tokens §5. Two images,
+// same framing, side-by-side ≥640px and stacked below. Static pairs are the
+// default. Until the shoot delivers a real pair, both frames render as
+// labeled placeholders (the Cable Management page cannot ship without a
+// real pair — Gate 0 hard floor).
+interface Props {
+  beforeShot: string;
+  afterShot: string;
+  beforeSrc?: string;
+  beforeAlt?: string;
+  afterSrc?: string;
+  afterAlt?: string;
+}
+
+const { beforeShot, afterShot, beforeSrc, beforeAlt, afterSrc, afterAlt } =
+  Astro.props;
+---
+
+<div class="before-after">
+  <figure>
+    <span class="kicker">Before</span>
+    {
+      beforeSrc ? (
+        <img src={beforeSrc} alt={beforeAlt} width="800" height="600" loading="lazy" />
+      ) : (
+        <PhotoPlaceholder shot={beforeShot} ratio="4x3" />
+      )
+    }
+  </figure>
+  <figure>
+    <span class="kicker">After</span>
+    {
+      afterSrc ? (
+        <img src={afterSrc} alt={afterAlt} width="800" height="600" loading="lazy" />
+      ) : (
+        <PhotoPlaceholder shot={afterShot} ratio="4x3" />
+      )
+    }
+  </figure>
+</div>
+
+<style>
+  .before-after {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-3);
+  }
+
+  @media (min-width: 640px) {
+    .before-after {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .before-after figure {
+    margin: 0;
+  }
+
+  .before-after .kicker {
+    margin-block-end: var(--space-1);
+  }
+</style>

@@ -1,0 +1,294 @@
+---
+import Base from '../../layouts/Base.astro';
+import SectionHeading from '../../components/SectionHeading.astro';
+import PhotoPlaceholder from '../../components/PhotoPlaceholder.astro';
+import BeforeAfterPair from '../../components/BeforeAfterPair.astro';
+import ScopeList from '../../components/ScopeList.astro';
+import CTABand from '../../components/CTABand.astro';
+
+// Services overview — the launch page covering all four service lines in
+// depth (Master Spec §3). Individual service pages are expansion, added as
+// their content is ready (Cable Management first, once a real before/after
+// pair exists).
+
+const services = [
+  {
+    id: 'solution-finding-procurement',
+    title: 'Solution finding & procurement',
+    when: 'You know the problem — a crowded room, a new unit, a rollout — but not which hardware fits it.',
+    photo:
+      'technician measuring wall at nurse station during site survey, tape measure visible',
+    included: [
+      {
+        title: 'Site survey first',
+        text: 'We walk the space, measure, and look at what is behind the wall before recommending anything.',
+      },
+      {
+        title: 'A recommendation matched to the room',
+        text: 'Mount, arm, cart, or cabinet — chosen for the workflow, the wall, and the people using it, not from a catalog page.',
+      },
+      {
+        title: 'Try it before you commit',
+        text: 'Ask about an evaluation unit so clinicians can work with the hardware before the order is placed. ⟦VERIFY: evaluation-unit terms — open item #16⟧',
+      },
+      {
+        title: 'One quote',
+        text: 'Hardware and installation together, so there is one number and one point of contact.',
+      },
+    ],
+  },
+  {
+    id: 'installation-deployment',
+    title: 'Installation & deployment',
+    when: 'The hardware is chosen — now it has to go into a live clinical environment without disrupting care.',
+    photo:
+      'crew installing wall arm in patient room after hours, contained work area, floor protected',
+    included: [
+      {
+        title: 'Scheduled around care',
+        text: 'Install timing is set with your unit, not against it — after hours, in live clinical environments.',
+      },
+      {
+        title: 'Consistent, credentialed crews',
+        text: 'The people who show up are badged, vendor-credentialed, and used to working around patients and staff.',
+      },
+      {
+        title: 'A live-unit protocol',
+        text: 'Contained work areas, a walk-through with your team before we start, and no readable screens or patient areas disturbed.',
+      },
+      {
+        title: 'Built to stay put',
+        text: 'Correct backing, rated hardware, and cable lengths cut to the room — installed once, serviceable for years. Cleanup is part of the install, not a favor.',
+      },
+    ],
+  },
+  {
+    id: 'cable-management',
+    title: 'Cable management',
+    when: 'Cables on the floor are a safety, cleaning, and inspection problem — whether or not we installed the equipment.',
+    photo: null, // uses the before/after pair instead
+    included: [
+      {
+        title: 'Stow hardware off the floor',
+        text: 'Power supplies, scanners, and spare length get mounted hardware of their own — nothing resting on the ground.',
+      },
+      {
+        title: 'Custom cable lengths',
+        text: 'Cables cut and terminated to the run they serve, so nothing touches the floor.',
+      },
+      {
+        title: 'Bundle and conceal',
+        text: 'What remains is bundled, routed, and concealed so rooms clean faster and pass inspection walk-throughs.',
+      },
+    ],
+  },
+  {
+    id: 'service-maintenance',
+    title: 'Service & maintenance',
+    when: 'Equipment you already own — from us or anyone else — needs repair, adjustment, or a plan for staying in service.',
+    photo:
+      'technician servicing a workstation-on-wheels in a hallway, tool bag open',
+    included: [
+      {
+        title: 'Most major makes and models',
+        text: 'We service the equipment you have, including hardware we didn’t supply or install.',
+      },
+      {
+        title: 'Maintenance Visit',
+        text: 'A scheduled pass through your installed hardware. ⟦VERIFY: Maintenance Visit contents — open item #14⟧',
+      },
+      {
+        title: 'Asset Protection Plan',
+        text: 'Ongoing coverage for the equipment that holds your technology. ⟦VERIFY: Asset Protection Plan terms — open item #14⟧',
+      },
+      {
+        title: 'Response commitment',
+        text: '⟦VERIFY: response window — open item #9⟧',
+      },
+    ],
+  },
+];
+---
+
+<Base
+  title="Hospital hardware selection, installation, and maintenance services | Seamless Point of Care"
+  description="Four services for hospitals: solution finding and procurement, installation and deployment in live units after hours, cable management, and any-brand service and maintenance."
+>
+  <!-- Page header -->
+  <section class="page-header">
+    <div class="container">
+      <div class="header-copy">
+        <span class="kicker">Services</span>
+        <h1>Select, supply, install, maintain.</h1>
+        <p class="lead text-secondary">
+          One team carries the work from the first site survey to years of
+          service: we help you choose the right hardware, put it on one quote,
+          install it around care, and keep it working.
+        </p>
+      </div>
+      <p class="plug-line">Plug us in at any point in the process.</p>
+      <nav class="jump-nav" aria-label="Service lines">
+        {services.map((s) => <a href={`#${s.id}`}>{s.title}</a>)}
+      </nav>
+    </div>
+  </section>
+
+  <!-- Four service lines -->
+  {
+    services.map((service, i) => (
+      <section
+        class={`section service-section${i % 2 === 1 ? ' section-alt' : ''}`}
+        id={service.id}
+        aria-labelledby={`${service.id}-heading`}
+      >
+        <div class="container">
+          <div class={`service-grid${i % 2 === 1 ? ' flip' : ''}`}>
+            <div class="service-copy">
+              <span class="kicker">{`0${i + 1}`}</span>
+              <h2 id={`${service.id}-heading`}>{service.title}</h2>
+              <p class="service-when">{service.when}</p>
+              <dl class="service-included">
+                {service.included.map((item) => (
+                  <div class="included-item">
+                    <dt>{item.title}</dt>
+                    <dd class="text-secondary">{item.text}</dd>
+                  </div>
+                ))}
+              </dl>
+            </div>
+            <div class="service-media">
+              {service.photo ? (
+                <PhotoPlaceholder shot={service.photo} ratio="4x3" />
+              ) : (
+                <BeforeAfterPair
+                  beforeShot="cable clutter under a charting desk, same framing as the after shot"
+                  afterShot="the same desk after cleanup — floor completely clear, cables concealed"
+                />
+              )}
+            </div>
+          </div>
+        </div>
+      </section>
+    ))
+  }
+
+  <!-- Scope: what we do / what we don't -->
+  <section class="section" aria-labelledby="scope-heading">
+    <div class="container">
+      <SectionHeading
+        kicker="Scope"
+        heading="Clear about what we do — and what we don't"
+        lead="You own the technology; we install and maintain what holds it."
+      />
+      <ScopeList />
+    </div>
+  </section>
+
+  <CTABand />
+</Base>
+
+<style>
+  .page-header {
+    padding-block: var(--space-5) var(--space-4);
+    border-block-end: 1px solid var(--color-rule);
+  }
+
+  .header-copy {
+    margin-block-end: var(--space-3);
+  }
+
+  .header-copy h1 {
+    margin-block-end: var(--space-2);
+    max-width: 24ch;
+  }
+
+  .header-copy .lead {
+    max-width: 56ch;
+  }
+
+  .plug-line {
+    font-size: var(--text-lg);
+    font-weight: 600;
+    color: var(--color-primary);
+    margin-block-end: var(--space-3);
+  }
+
+  .jump-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1) var(--space-3);
+    padding-block-start: var(--space-2);
+    border-block-start: 1px solid var(--color-rule);
+  }
+
+  .jump-nav a {
+    font-size: var(--text-sm);
+    font-weight: 550;
+    text-decoration: none;
+  }
+
+  .jump-nav a:hover {
+    text-decoration: underline;
+  }
+
+  /* Service sections */
+  .service-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+    align-items: start;
+  }
+
+  @media (min-width: 900px) {
+    .service-grid {
+      grid-template-columns: 1.1fr 1fr;
+      gap: var(--space-5);
+    }
+
+    .service-grid.flip .service-copy {
+      order: 2;
+    }
+
+    .service-grid.flip .service-media {
+      order: 1;
+    }
+  }
+
+  .service-copy h2 {
+    margin-block-end: var(--space-2);
+  }
+
+  .service-when {
+    font-size: var(--text-lg);
+    line-height: 1.45;
+    color: var(--color-ink-2);
+    margin-block-end: var(--space-3);
+  }
+
+  .service-included {
+    margin: 0;
+  }
+
+  .included-item {
+    padding-block: var(--space-2);
+    border-block-start: 1px solid var(--color-rule);
+  }
+
+  .included-item dt {
+    font-weight: 600;
+    margin-block-end: 0.25rem;
+  }
+
+  .included-item dd {
+    margin: 0;
+    font-size: var(--text-sm);
+    line-height: 1.55;
+  }
+
+  /* Keep the media aligned with the first included item on desktop */
+  @media (min-width: 900px) {
+    .service-media {
+      padding-block-start: var(--space-4);
+    }
+  }
+</style>
