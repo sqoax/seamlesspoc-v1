@@ -1,0 +1,325 @@
+---
+import Base from '../layouts/Base.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import ScopeList from '../components/ScopeList.astro';
+import CTABand from '../components/CTABand.astro';
+
+// How We Work — per Master Spec §3 and page-templates §6: the homepage
+// process expanded into the approved 8-step structure, then "What we need
+// from you," the do/don't scope block, commitments (verified only — flagged
+// until then), and a safety & credentialing summary (Gate 0 item 7).
+// No guarantees, no invented numbers.
+
+const steps = [
+  {
+    title: 'Initial inquiry',
+    text: 'Tell us what you’re trying to accomplish — through the form or by phone. A person reads it and replies within ⟦VERIFY: response window — open item #9⟧.',
+  },
+  {
+    title: 'Site survey & workflow walkthrough',
+    text: 'We walk the space with your team: measure, check the wall and what’s behind it, find power and data, and watch how the room is actually used before recommending anything.',
+  },
+  {
+    title: 'Recommendation — and a chance to try it',
+    text: 'The hardware that fits the room, the workflow, and the people using it. Ask about an evaluation unit so clinicians can work with it first. ⟦VERIFY: evaluation-unit terms — open item #16⟧',
+  },
+  {
+    title: 'One clear quote',
+    text: 'Hardware and installation on a single quote — one number, one point of contact. ⟦VERIFY: quoting-model commitments (fixed cost, change orders) — open item #10⟧',
+  },
+  {
+    title: 'Scheduling around hospital operations',
+    text: 'Timing is set with unit leadership, not against it — after hours, around the census and the case calendar, with badging and access arranged in advance.',
+  },
+  {
+    title: 'Installation',
+    text: 'Consistent, credentialed crews working a live-unit protocol: contained work areas, a walk-through with your team before we start, correct backing and rated hardware, cleanup as standard practice.',
+  },
+  {
+    title: 'Walkthrough & sign-off',
+    text: 'We walk the finished work with your team and resolve the punch list before we call it done. Rooms are returned ready for care.',
+  },
+  {
+    title: 'Service & maintenance',
+    text: 'We stay with the equipment — most major makes and models, including hardware we didn’t install. Ask about a Maintenance Visit or the Asset Protection Plan. ⟦VERIFY: plan contents and terms — open item #14⟧',
+  },
+];
+
+const needs = [
+  {
+    title: 'The devices themselves',
+    text: 'Computers, monitors, and clinical devices are yours — you own the technology; we install and maintain what holds it.',
+  },
+  {
+    title: 'Wall backing where it’s missing',
+    text: 'The survey tells us what’s behind the wall. Where backing is needed, we’ll flag it in the quote so there are no surprises.',
+  },
+  {
+    title: 'Network drops and power',
+    text: 'Live drops and power at the mount location, in place before install night.',
+  },
+  {
+    title: 'Access and badging',
+    text: 'Whatever your facility requires — arranged with security and the unit before the crew arrives.',
+  },
+  {
+    title: 'A point of contact',
+    text: 'One person who can answer questions and walk the finished work with us.',
+  },
+];
+
+const commitments = [
+  {
+    title: 'Response window',
+    text: '⟦VERIFY: response window — open item #9⟧',
+  },
+  {
+    title: 'Site-survey scheduling',
+    text: '⟦VERIFY: survey scheduling window — open item #9⟧',
+  },
+  {
+    title: 'Quoting model',
+    text: '⟦VERIFY: fixed-cost / change-order commitments — open item #10. This language renders only once confirmed.⟧',
+  },
+];
+---
+
+<Base
+  title="How hospital installation projects work with Seamless | Seamless Point of Care"
+  description="From first inquiry to years of service: site survey, recommendation, one clear quote, scheduling around care, after-hours installation, sign-off, and ongoing maintenance."
+>
+  <!-- Page header -->
+  <section class="page-header">
+    <div class="container">
+      <div class="header-copy">
+        <span class="kicker">How we work</span>
+        <h1>First call to years of service, one process.</h1>
+        <p class="lead text-secondary">
+          Every project runs the same way: understand the space, recommend the
+          right hardware, quote it once, install it around care, and stay with
+          the equipment afterward.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- The 8 steps -->
+  <section class="section" aria-labelledby="process-heading">
+    <div class="container">
+      <SectionHeading kicker="The process" heading="Eight steps, in order" />
+      <ol class="step-list">
+        {
+          steps.map((step, i) => (
+            <li class="step">
+              <span class="step-number num">{`0${i + 1}`}</span>
+              <div class="step-body">
+                <h3>{step.title}</h3>
+                <p class="text-secondary">{step.text}</p>
+              </div>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <!-- What we need from you -->
+  <section class="section section-alt" aria-labelledby="needs-heading">
+    <div class="container">
+      <SectionHeading
+        kicker="Your side of it"
+        heading="What we need from you"
+        lead="Not much — and the survey surfaces all of it before anything is quoted."
+      />
+      <div class="needs-grid">
+        {
+          needs.map((need) => (
+            <div class="need">
+              <h3>{need.title}</h3>
+              <p class="text-secondary">{need.text}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Scope -->
+  <section class="section" aria-labelledby="scope-heading">
+    <div class="container">
+      <SectionHeading
+        kicker="Scope"
+        heading="Where we fit"
+        lead="You own the technology; we install and maintain what holds it."
+      />
+      <ScopeList />
+    </div>
+  </section>
+
+  <!-- Commitments + credentialing -->
+  <section class="section section-alt" aria-labelledby="commitments-heading">
+    <div class="container commit-grid">
+      <div>
+        <SectionHeading
+          kicker="Commitments"
+          heading="Numbers we put in writing"
+          lead="These publish once verified — we commit to numbers we can keep, not numbers that sound good."
+        />
+        <ul class="commit-list">
+          {
+            commitments.map((c) => (
+              <li>
+                <strong>{c.title}</strong>
+                <span class="text-secondary">{c.text}</span>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+      <div class="cred-block card">
+        <h3>Safety &amp; credentialing</h3>
+        <p class="text-secondary">
+          Crews arrive badged and vendor-credentialed, and installs run the
+          live-unit protocol described above.
+        </p>
+        <p class="text-secondary">
+          ⟦VERIFY: credentials summary — certifications, hospital
+          credentialing systems, insurance, licensing (Gate 0 item 7). This
+          block publishes from the verified credentials sheet.⟧
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <CTABand />
+</Base>
+
+<style>
+  .page-header {
+    padding-block: var(--space-5) var(--space-4);
+    border-block-end: 1px solid var(--color-rule);
+  }
+
+  .header-copy h1 {
+    margin-block-end: var(--space-2);
+    max-width: 24ch;
+  }
+
+  .header-copy .lead {
+    max-width: 54ch;
+  }
+
+  /* Steps */
+  .step-list {
+    list-style: none;
+    padding: 0;
+    max-width: 52rem;
+  }
+
+  .step {
+    display: grid;
+    grid-template-columns: 3rem 1fr;
+    gap: var(--space-2);
+    padding-block: var(--space-3);
+    border-block-start: 1px solid var(--color-rule);
+  }
+
+  .step-number {
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--color-primary-2);
+    padding-block-start: 0.2rem;
+  }
+
+  .step-body h3 {
+    font-size: var(--text-lg);
+    margin-block-end: 0.375rem;
+  }
+
+  .step-body p {
+    font-size: var(--text-base);
+    line-height: 1.55;
+    max-width: 60ch;
+  }
+
+  /* Needs */
+  .needs-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-3);
+  }
+
+  @media (min-width: 640px) {
+    .needs-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .needs-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .need {
+    border-block-start: 2px solid var(--color-primary);
+    padding-block-start: var(--space-2);
+  }
+
+  .need h3 {
+    font-size: var(--text-base);
+    margin-block-end: 0.25rem;
+  }
+
+  .need p {
+    font-size: var(--text-sm);
+    line-height: 1.5;
+  }
+
+  /* Commitments */
+  .commit-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+    align-items: start;
+  }
+
+  @media (min-width: 900px) {
+    .commit-grid {
+      grid-template-columns: 1.3fr 1fr;
+      gap: var(--space-5);
+    }
+  }
+
+  .commit-list {
+    list-style: none;
+    padding: 0;
+  }
+
+  .commit-list li {
+    padding-block: var(--space-2);
+    border-block-start: 1px solid var(--color-rule);
+    font-size: var(--text-sm);
+    line-height: 1.5;
+  }
+
+  .commit-list strong {
+    display: block;
+    margin-block-end: 0.125rem;
+  }
+
+  .cred-block {
+    padding: var(--space-3);
+  }
+
+  .cred-block h3 {
+    font-size: var(--text-base);
+    margin-block-end: var(--space-1);
+  }
+
+  .cred-block p {
+    font-size: var(--text-sm);
+    line-height: 1.5;
+    margin-block-end: var(--space-1);
+  }
+</style>
