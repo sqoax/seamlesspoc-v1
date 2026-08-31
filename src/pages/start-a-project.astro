@@ -1,0 +1,498 @@
+---
+import Base from '../layouts/Base.astro';
+
+// Start a Project — the primary conversion (Master Spec §2). Dedicated
+// page, never a modal. Trigger checkboxes and fields per content-rules §6.
+// Endpoint-agnostic: markup posts to PUBLIC_FORM_ENDPOINT (open item #11);
+// JS enhances with fetch + inline states and degrades to a plain POST with
+// /thanks as the no-JS confirmation. Response and survey windows are TBD
+// (open item #9) — flagged, never guessed.
+
+const endpoint = import.meta.env.PUBLIC_FORM_ENDPOINT ?? '';
+
+const triggers = [
+  { value: 'new-construction', label: 'New construction or renovation' },
+  { value: 'rollout', label: 'Equipment rollout' },
+  { value: 'specific-product', label: 'A specific product we need' },
+  { value: 'cable-cleanup', label: 'Cable cleanup / safety' },
+  { value: 'icu-patient-room', label: 'ICU or patient-room upgrade' },
+  { value: 'service-existing', label: 'Service on existing equipment' },
+  { value: 'other', label: 'Something else' },
+];
+
+const timingOptions = [
+  'As soon as possible',
+  'Within 1–3 months',
+  'Within 3–6 months',
+  'Planning / budgeting',
+  'Not sure yet',
+];
+---
+
+<Base
+  title="Start a hospital installation project | Seamless Point of Care"
+  description="Tell Seamless Point of Care what you're trying to accomplish. We'll survey the space and give you one clear quote — hardware and installation together."
+>
+  <section class="page-header">
+    <div class="container">
+      <div class="header-copy">
+        <span class="kicker">Start a project</span>
+        <h1>Tell us what you&rsquo;re trying to accomplish.</h1>
+        <p class="lead text-secondary">
+          We&rsquo;ll survey the space and give you one clear quote — hardware
+          and installation together.
+        </p>
+        <p class="response-line text-secondary">
+          We&rsquo;ll respond within ⟦VERIFY: response window — open item #9⟧
+          and typically schedule a site survey within ⟦VERIFY: survey window —
+          open item #9⟧.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container form-layout">
+      <form
+        class="project-form"
+        method="POST"
+        action={endpoint || '/thanks'}
+        data-endpoint={endpoint}
+        novalidate
+      >
+        <!-- Honeypot -->
+        <div class="hp-field" aria-hidden="true">
+          <label for="company-website">Leave this field empty</label>
+          <input
+            type="text"
+            id="company-website"
+            name="company-website"
+            tabindex="-1"
+            autocomplete="off"
+          />
+        </div>
+
+        <fieldset class="form-section">
+          <legend>What&rsquo;s going on?</legend>
+          <p class="fieldset-hint text-secondary">Check anything that applies.</p>
+          {
+            triggers.map((t) => (
+              <label class="checkbox-row">
+                <input type="checkbox" name="triggers" value={t.value} />
+                <span>{t.label}</span>
+              </label>
+            ))
+          }
+        </fieldset>
+
+        <fieldset class="form-section">
+          <legend>The project</legend>
+          <div class="field">
+            <label for="scope">Scope and rough quantities</label>
+            <textarea
+              id="scope"
+              name="scope"
+              rows="4"
+              placeholder="e.g. 24 patient rooms need wall-mounted workstations; cables at six nurse stations are on the floor"
+            ></textarea>
+            <p class="hint">Whatever you know today is enough to start.</p>
+          </div>
+          <div class="field">
+            <label for="timing">Timing</label>
+            <select id="timing" name="timing">
+              <option value="">Select one (optional)</option>
+              {timingOptions.map((opt) => <option value={opt}>{opt}</option>)}
+            </select>
+          </div>
+          <fieldset class="field sub-fieldset">
+            <legend class="sub-legend">
+              Would a site survey or an evaluation unit help? <span class="optional">(optional)</span>
+            </legend>
+            <label class="checkbox-row">
+              <input type="radio" name="next-step" value="site-survey" />
+              <span>Site survey — walk the space with us</span>
+            </label>
+            <label class="checkbox-row">
+              <input type="radio" name="next-step" value="evaluation-unit" />
+              <span>Evaluation unit — let clinicians try the hardware</span>
+            </label>
+            <label class="checkbox-row">
+              <input type="radio" name="next-step" value="both" />
+              <span>Both</span>
+            </label>
+            <label class="checkbox-row">
+              <input type="radio" name="next-step" value="not-yet" />
+              <span>Not yet — just a conversation</span>
+            </label>
+          </fieldset>
+        </fieldset>
+
+        <fieldset class="form-section">
+          <legend>About you</legend>
+          <div class="field-row">
+            <div class="field">
+              <label for="name">Name</label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                required
+                autocomplete="name"
+                aria-describedby="name-error"
+              />
+              <p class="error" id="name-error" hidden>Please add your name.</p>
+            </div>
+            <div class="field">
+              <label for="role">Role</label>
+              <input
+                type="text"
+                id="role"
+                name="role"
+                autocomplete="organization-title"
+                placeholder="e.g. IT director, informatics, facilities PM"
+              />
+            </div>
+          </div>
+          <div class="field">
+            <label for="facility">Facility or health system</label>
+            <input
+              type="text"
+              id="facility"
+              name="facility"
+              required
+              autocomplete="organization"
+              aria-describedby="facility-error"
+            />
+            <p class="error" id="facility-error" hidden>
+              Please add your facility or health system.
+            </p>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label for="email">Email</label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                required
+                autocomplete="email"
+                aria-describedby="email-error"
+              />
+              <p class="error" id="email-error" hidden>
+                Please add a work email we can reply to.
+              </p>
+            </div>
+            <div class="field">
+              <label for="phone">Phone <span class="optional">(optional)</span></label>
+              <input type="tel" id="phone" name="phone" autocomplete="tel" />
+            </div>
+          </div>
+        </fieldset>
+
+        <div class="form-footer">
+          <button class="btn btn-primary" type="submit">Send it over</button>
+          <p class="phone-fallback text-secondary">
+            Prefer to talk it through? <span class="num">⟦VERIFY: phone⟧</span>
+          </p>
+        </div>
+
+        <p class="form-status" role="status" aria-live="polite" hidden></p>
+      </form>
+
+      <aside class="form-aside">
+        <h2 class="aside-heading">What happens next</h2>
+        <ol class="next-steps">
+          <li>
+            <strong>We reply.</strong>
+            <span class="text-secondary">
+              A person, not an autoresponder — within
+              ⟦VERIFY: response window — open item #9⟧.
+            </span>
+          </li>
+          <li>
+            <strong>We survey the space.</strong>
+            <span class="text-secondary">
+              We walk the rooms, measure, and look at what&rsquo;s behind the
+              wall.
+            </span>
+          </li>
+          <li>
+            <strong>You get one quote.</strong>
+            <span class="text-secondary">
+              Hardware and installation together — one number, one point of
+              contact.
+            </span>
+          </li>
+        </ol>
+        <div class="aside-service card">
+          <h3>Existing equipment acting up?</h3>
+          <p class="text-secondary">
+            Skip the project form — <a href="/request-service">request service</a>
+            on most major makes and models.
+          </p>
+        </div>
+      </aside>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .page-header {
+    padding-block: var(--space-5) var(--space-4);
+    border-block-end: 1px solid var(--color-rule);
+  }
+
+  .header-copy h1 {
+    margin-block-end: var(--space-2);
+    max-width: 24ch;
+  }
+
+  .header-copy .lead {
+    max-width: 48ch;
+    margin-block-end: var(--space-2);
+  }
+
+  .response-line {
+    font-size: var(--text-sm);
+    max-width: 56ch;
+  }
+
+  /* Layout */
+  .form-layout {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-5);
+    align-items: start;
+  }
+
+  @media (min-width: 900px) {
+    .form-layout {
+      grid-template-columns: 1.5fr 1fr;
+    }
+  }
+
+  /* Form */
+  .form-section {
+    border: 0;
+    padding: 0;
+    margin: 0 0 var(--space-4);
+  }
+
+  .form-section > legend {
+    font-size: var(--text-lg);
+    font-weight: 620;
+    padding: 0;
+    margin-block-end: var(--space-1);
+  }
+
+  .fieldset-hint {
+    font-size: var(--text-sm);
+    margin-block-end: var(--space-2);
+  }
+
+  .sub-fieldset {
+    border: 0;
+    padding: 0;
+  }
+
+  .sub-legend {
+    font-size: var(--text-sm);
+    font-weight: 600;
+    padding: 0;
+    margin-block-end: var(--space-1);
+  }
+
+  .optional {
+    font-weight: 400;
+    color: var(--color-ink-2);
+  }
+
+  .field-row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0 var(--space-3);
+  }
+
+  @media (min-width: 640px) {
+    .field-row {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .form-footer {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--space-2) var(--space-3);
+    padding-block-start: var(--space-3);
+    border-block-start: 1px solid var(--color-rule);
+  }
+
+  .phone-fallback {
+    font-size: var(--text-sm);
+    margin: 0;
+  }
+
+  .form-status {
+    margin-block-start: var(--space-3);
+    padding: var(--space-2);
+    border-radius: var(--radius);
+    font-size: var(--text-sm);
+  }
+
+  .form-status.is-success {
+    background: var(--color-paper-2);
+    border: 1px solid var(--color-success);
+    color: var(--color-ink);
+  }
+
+  .form-status.is-error {
+    background: var(--color-paper-2);
+    border: 1px solid var(--color-error);
+    color: var(--color-ink);
+  }
+
+  /* Aside */
+  .aside-heading {
+    font-size: var(--text-lg);
+    margin-block-end: var(--space-2);
+  }
+
+  .next-steps {
+    list-style: none;
+    padding: 0;
+    margin-block-end: var(--space-4);
+    counter-reset: step;
+  }
+
+  .next-steps li {
+    counter-increment: step;
+    padding-block: var(--space-2);
+    border-block-start: 1px solid var(--color-rule);
+    font-size: var(--text-sm);
+    line-height: 1.5;
+  }
+
+  .next-steps li::before {
+    content: counter(step, decimal-leading-zero);
+    display: block;
+    font-variant-numeric: tabular-nums;
+    font-weight: 600;
+    font-size: var(--text-xs);
+    color: var(--color-primary-2);
+    margin-block-end: 0.25rem;
+  }
+
+  .next-steps strong {
+    display: block;
+    margin-block-end: 0.125rem;
+  }
+
+  .aside-service {
+    padding: var(--space-3);
+  }
+
+  .aside-service h3 {
+    font-size: var(--text-base);
+    margin-block-end: 0.375rem;
+  }
+
+  .aside-service p {
+    font-size: var(--text-sm);
+  }
+</style>
+
+<script>
+  const form = document.querySelector('.project-form') as HTMLFormElement | null;
+
+  if (form) {
+    // ?category= prefill from What We Install quote links
+    const category = new URLSearchParams(window.location.search).get('category');
+    if (category) {
+      const specific = form.querySelector<HTMLInputElement>(
+        'input[name="triggers"][value="specific-product"]'
+      );
+      if (specific) specific.checked = true;
+      const scope = form.querySelector<HTMLTextAreaElement>('#scope');
+      if (scope && !scope.value) {
+        scope.value = `Category: ${category.replace(/-/g, ' ')}\n`;
+      }
+    }
+
+    const requiredFields = ['name', 'facility', 'email'];
+    const status = form.querySelector<HTMLElement>('.form-status');
+
+    const showStatus = (kind: 'success' | 'error', html: string) => {
+      if (!status) return;
+      status.hidden = false;
+      status.classList.remove('is-success', 'is-error');
+      status.classList.add(kind === 'success' ? 'is-success' : 'is-error');
+      status.innerHTML = html;
+      status.scrollIntoView({ block: 'nearest' });
+    };
+
+    const validate = (): boolean => {
+      let firstInvalid: HTMLInputElement | null = null;
+      for (const id of requiredFields) {
+        const input = form.querySelector<HTMLInputElement>(`#${id}`);
+        const error = document.getElementById(`${id}-error`);
+        const fieldWrap = input?.closest('.field');
+        const valid = !!input && input.checkValidity();
+        if (error) error.hidden = valid;
+        fieldWrap?.classList.toggle('has-error', !valid);
+        if (!valid && input && !firstInvalid) firstInvalid = input;
+      }
+      firstInvalid?.focus();
+      return !firstInvalid;
+    };
+
+    form.addEventListener('submit', async (event) => {
+      const endpoint = form.dataset.endpoint || '';
+
+      if (!validate()) {
+        event.preventDefault();
+        return;
+      }
+
+      // Honeypot: silently drop bot submissions
+      const hp = form.querySelector<HTMLInputElement>('#company-website');
+      if (hp && hp.value) {
+        event.preventDefault();
+        return;
+      }
+
+      if (!endpoint) {
+        // Endpoint not configured yet (open item #11) — never fake a
+        // submission. Point to the phone instead.
+        event.preventDefault();
+        showStatus(
+          'error',
+          'The form isn&rsquo;t connected yet. Please call us — ⟦VERIFY: phone⟧ — or email ⟦VERIFY: email⟧.'
+        );
+        return;
+      }
+
+      event.preventDefault();
+      try {
+        const response = await fetch(endpoint, {
+          method: 'POST',
+          body: new FormData(form),
+          headers: { Accept: 'application/json' },
+        });
+        if (!response.ok) throw new Error(String(response.status));
+        form.querySelectorAll('fieldset, .form-footer').forEach((el) => {
+          (el as HTMLElement).hidden = true;
+        });
+        showStatus(
+          'success',
+          'Thanks — we have it. We&rsquo;ll respond within ⟦VERIFY: response window — open item #9⟧. If it&rsquo;s urgent, call ⟦VERIFY: phone⟧.'
+        );
+      } catch {
+        showStatus(
+          'error',
+          'That didn&rsquo;t go through. Please try again, or call ⟦VERIFY: phone⟧.'
+        );
+      }
+    });
+  }
+</script>
