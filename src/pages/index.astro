@@ -1,0 +1,455 @@
+---
+import Base from '../layouts/Base.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import PhotoPlaceholder from '../components/PhotoPlaceholder.astro';
+import InstallCard from '../components/InstallCard.astro';
+import ProblemEntry from '../components/ProblemEntry.astro';
+import ProcessStrip from '../components/ProcessStrip.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import StatFigure from '../components/StatFigure.astro';
+import CTABand from '../components/CTABand.astro';
+
+// Homepage — 9 sections in the APPROVED order (Master Spec §4).
+// Section order and shape may not change without amending the spec.
+
+const installCategories = [
+  {
+    title: 'Wall-mounted workstations & arms',
+    outcome: 'Charting at the bedside without crowding the room.',
+    slug: 'wall-mounted-workstations',
+    shot: 'wall arm with workstation in patient room, floor visible, no cables',
+  },
+  {
+    title: 'Wall cabinets & desktop workstations',
+    outcome: 'Computing built into the wall, closed and secure between shifts.',
+    slug: 'wall-cabinets-desktop',
+    shot: 'wall cabinet workstation open in hallway alcove',
+  },
+  {
+    title: 'Mobile carts & workstations on wheels',
+    outcome: 'The right cart for the workflow, fitted and maintained.',
+    slug: 'mobile-carts-wows',
+    shot: 'workstation on wheels in corridor, clean cable run visible',
+  },
+  {
+    title: 'Tracking boards & clinical displays',
+    outcome: 'Unit status the whole team can read at a glance.',
+    slug: 'tracking-boards-displays',
+    shot: 'large tracking board mounted at nurse station',
+  },
+  {
+    title: 'Patient room TVs & displays',
+    outcome: 'Mounted, powered, and wired with nothing exposed.',
+    slug: 'patient-room-tvs',
+    shot: 'patient room TV on articulating mount, concealed wiring',
+  },
+  {
+    title: 'Anesthesia & clinical equipment mounts',
+    outcome: 'Displays and computers mounted where anesthesia teams work.',
+    slug: 'anesthesia-clinical-mounts',
+    shot: 'monitor mount on anesthesia machine in OR, no PHI on screens',
+  },
+  {
+    title: 'Cable management hardware',
+    outcome: 'Cables stowed, bundled, and off the floor.',
+    slug: 'cable-management-hardware',
+    shot: 'after shot of cable cleanup under desk, floor completely clear',
+  },
+  {
+    title: 'Digital signage & conference rooms',
+    outcome: 'Displays for the spaces where care is coordinated.',
+    slug: 'digital-signage-conference',
+    shot: 'conference room display install, cabling concealed',
+  },
+];
+
+const problemEntries = [
+  { statement: 'Our cables are a safety problem.', href: '/what-we-install/cable-management-hardware' },
+  { statement: "We're opening a new unit.", href: '/start-a-project' },
+  { statement: 'We need a PC on the anesthesia machine.', href: '/what-we-install/anesthesia-clinical-mounts' },
+  { statement: "IT doesn't have the hands for this rollout.", href: '/services' },
+  { statement: "A mount is broken — and it isn't even ours.", href: '/request-service' },
+];
+
+const behaviors = [
+  {
+    title: 'Consistent, credentialed crews',
+    text: 'The people who show up know hospitals — badging, vendor credentialing, and how to work around a shift in progress.',
+  },
+  {
+    title: 'A live-unit protocol',
+    text: 'We plan every install around patients and staff: after hours, contained work areas, and a walk-through with your team before we start.',
+  },
+  {
+    title: 'Cleanup as standard practice',
+    text: 'Packaging out, dust contained, rooms returned ready for care. Cleanup is part of the install, not a favor.',
+  },
+  {
+    title: "Built so we don't have to come back",
+    text: 'Correct backing, rated hardware, and cable lengths cut to the room — installed once, serviceable for years.',
+  },
+];
+---
+
+<Base
+  title="Hospital technology installation & mounting in the Southeast | Seamless Point of Care"
+  description="Seamless Point of Care selects, supplies, installs, and maintains wall-mounted workstations, carts, cabinets, displays, and cable management for hospitals — in live units, after hours."
+>
+  <!-- 1. Hero -->
+  <section class="hero">
+    <div class="container hero-grid">
+      <div class="hero-copy">
+        <h1>Technology installed in hospitals, by people who work in hospitals every day.</h1>
+        <p class="lead">
+          Wall-mounted workstations, carts, cabinets, tracking boards, patient
+          TVs, and the cable management that keeps them safe — selected,
+          supplied, installed, and maintained. Live units. After hours.
+          Consistent, experienced crews.
+        </p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="/start-a-project">Start a project</a>
+          <a class="btn btn-secondary" href="/projects">See our work</a>
+        </div>
+      </div>
+      <PhotoPlaceholder
+        shot="hero — finished patient room or nurse station, wall-mounted workstation installed, floor clear, natural light"
+        ratio="4x3"
+        class="hero-photo"
+      />
+    </div>
+  </section>
+
+  <!-- 2. What we install -->
+  <section class="section" aria-labelledby="install-heading">
+    <div class="container">
+      <SectionHeading
+        kicker="What we install"
+        heading="Eight categories of point-of-care hardware"
+        lead="If it holds a computer, a display, or a device at the point of care, we select it, supply it, install it, and maintain it."
+      />
+      <div class="grid">
+        {
+          installCategories.map((cat) => (
+            <InstallCard
+              title={cat.title}
+              outcome={cat.outcome}
+              href={`/what-we-install/${cat.slug}`}
+              shot={cat.shot}
+            />
+          ))
+        }
+      </div>
+      <p class="section-more">
+        <a href="/what-we-install">See everything we install</a>
+      </p>
+    </div>
+  </section>
+
+  <!-- 3. Problem-based entry points -->
+  <section class="section section-alt" aria-labelledby="problems-heading">
+    <div class="container">
+      <SectionHeading
+        kicker="Start where you are"
+        heading="Sound familiar?"
+      />
+      <div class="problem-list">
+        {
+          problemEntries.map((entry) => (
+            <ProblemEntry statement={entry.statement} href={entry.href} />
+          ))
+        }
+      </div>
+      <p class="section-more">
+        Not sure? <a href="/start-a-project">Request a site survey.</a>
+      </p>
+    </div>
+  </section>
+
+  <!-- 4. How we work -->
+  <section class="section" aria-labelledby="process-heading">
+    <div class="container">
+      <SectionHeading
+        kicker="How we work"
+        heading="Survey to maintenance, one point of contact"
+      />
+      <ProcessStrip />
+      <p class="scope-line">You own the technology; we install and maintain what holds it.</p>
+      <p class="section-more"><a href="/how-we-work">See how we work</a></p>
+    </div>
+  </section>
+
+  <!-- 5. Why hospitals keep using us -->
+  <section class="section section-alt" aria-labelledby="proof-heading">
+    <div class="container">
+      <SectionHeading
+        kicker="Why hospitals keep using us"
+        heading="The work holds up. So does the crew."
+      />
+      <div class="proof-grid">
+        <div class="proof-behaviors">
+          {
+            behaviors.map((b) => (
+              <div class="behavior">
+                <h3>{b.title}</h3>
+                <p class="text-secondary">{b.text}</p>
+              </div>
+            ))
+          }
+        </div>
+        <PhotoPlaceholder
+          shot="crew photo — the installation team in uniform, hospital corridor or shop, no patients"
+          ratio="3x2"
+          class="proof-photo"
+        />
+      </div>
+
+      <div class="proof-stats">
+        <StatFigure value="⟦VERIFY⟧" label="Verified experience statement — open item #3" />
+        <StatFigure value="⟦VERIFY⟧" label="Verified team or install figure — open item #15" />
+        <StatFigure value="⟦VERIFY⟧" label="Verified proof number — Gate 0 item 2" />
+      </div>
+
+      <figure class="testimonial-slot card">
+        <blockquote>
+          <p>⟦VERIFY: testimonial pending — renders only from a verified entry with explicit permission (open item #4)⟧</p>
+        </blockquote>
+        <figcaption class="text-secondary">Name, title, and health system appear only with written permission.</figcaption>
+      </figure>
+
+      <div class="capacity-statement">
+        <p>
+          Most hospital IT teams are capable — and booked. We carry the
+          installation work end to end, so a rollout gets done without pulling
+          your people off their own queue.
+        </p>
+        <p class="section-more"><a href="/about">Meet the team</a></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. Recent projects -->
+  <section class="section" aria-labelledby="projects-heading">
+    <div class="container">
+      <SectionHeading
+        kicker="Recent projects"
+        heading="Named, dated, and measured"
+        lead="Case studies publish once the health system has verified the numbers and approved the use of its name."
+      />
+      <div class="grid grid-3">
+        <ProjectCard placeholder shot="lead install photo, project 1" />
+        <ProjectCard placeholder shot="lead install photo, project 2" />
+        <ProjectCard placeholder shot="lead install photo, project 3" />
+      </div>
+      <p class="section-more"><a href="/projects">See all projects</a></p>
+    </div>
+  </section>
+
+  <!-- 7. Health systems we work with -->
+  <section class="section section-alt" aria-labelledby="customers-heading">
+    <div class="container">
+      <SectionHeading
+        kicker="Customers"
+        heading="Health systems we work with"
+        lead="Serving hospitals across the Southeast since ⟦VERIFY: year — open item #3⟧."
+      />
+      <div class="logo-wall card">
+        <p class="text-secondary">
+          Customer names and logos render here only with verification and
+          written permission (open item #4). Nothing appears in this grid
+          until both are recorded.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. Existing equipment -->
+  <section class="section" aria-labelledby="service-heading">
+    <div class="container service-band">
+      <div>
+        <SectionHeading
+          kicker="Already installed?"
+          heading="We service most major makes and models"
+          lead="Including equipment we didn't install. Ask about a Maintenance Visit or the Asset Protection Plan."
+        />
+      </div>
+      <div class="service-band-action">
+        <a class="btn btn-secondary" href="/request-service">Request service</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9. Final CTA band -->
+  <CTABand />
+</Base>
+
+<style>
+  /* Hero */
+  .hero {
+    padding-block: var(--space-5);
+    border-block-end: 1px solid var(--color-rule);
+  }
+
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+    align-items: center;
+  }
+
+  @media (min-width: 900px) {
+    .hero {
+      padding-block: var(--space-6);
+    }
+
+    .hero-grid {
+      grid-template-columns: 1.1fr 1fr;
+      gap: var(--space-5);
+    }
+  }
+
+  .hero-copy h1 {
+    margin-block-end: var(--space-3);
+    max-width: 20ch;
+  }
+
+  .hero-copy .lead {
+    color: var(--color-ink-2);
+    margin-block-end: var(--space-4);
+  }
+
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+
+  /* Shared */
+  .section-more {
+    margin-block-start: var(--space-4);
+    font-weight: 550;
+  }
+
+  /* Problems */
+  .problem-list {
+    max-width: 44rem;
+  }
+
+  /* Process */
+  .scope-line {
+    margin-block-start: var(--space-4);
+    font-size: var(--text-lg);
+    font-weight: 600;
+    color: var(--color-primary);
+    max-width: 34ch;
+  }
+
+  /* Proof */
+  .proof-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+    align-items: start;
+  }
+
+  @media (min-width: 900px) {
+    .proof-grid {
+      grid-template-columns: 1.1fr 1fr;
+    }
+  }
+
+  .proof-behaviors {
+    display: grid;
+    gap: var(--space-3);
+  }
+
+  @media (min-width: 640px) {
+    .proof-behaviors {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .behavior h3 {
+    font-size: var(--text-base);
+    margin-block-end: 0.25rem;
+  }
+
+  .behavior p {
+    font-size: var(--text-sm);
+    line-height: 1.5;
+  }
+
+  .proof-stats {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-3);
+    margin-block-start: var(--space-4);
+  }
+
+  @media (min-width: 640px) {
+    .proof-stats {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .testimonial-slot {
+    margin-block-start: var(--space-4);
+    padding: var(--space-3);
+  }
+
+  .testimonial-slot blockquote p {
+    font-size: var(--text-base);
+    color: var(--color-ink-2);
+  }
+
+  .testimonial-slot figcaption {
+    margin-block-start: var(--space-1);
+    font-size: var(--text-xs);
+  }
+
+  .capacity-statement {
+    margin-block-start: var(--space-4);
+    padding-block-start: var(--space-3);
+    border-block-start: 1px solid var(--color-rule);
+  }
+
+  .capacity-statement > p:first-child {
+    font-size: var(--text-lg);
+    line-height: 1.5;
+    max-width: 52ch;
+  }
+
+  /* Logo wall placeholder */
+  .logo-wall {
+    padding: var(--space-4);
+    border-style: dashed;
+    text-align: center;
+  }
+
+  .logo-wall p {
+    margin-inline: auto;
+    font-size: var(--text-sm);
+    max-width: 48ch;
+  }
+
+  /* Service band */
+  .service-band {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-2);
+    align-items: center;
+  }
+
+  @media (min-width: 900px) {
+    .service-band {
+      grid-template-columns: 2fr 1fr;
+    }
+
+    .service-band-action {
+      justify-self: end;
+    }
+  }
+
+  .service-band :global(.section-heading) {
+    margin-block-end: 0;
+  }
+</style>

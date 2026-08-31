@@ -1,0 +1,64 @@
+---
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+
+interface Props {
+  title: string;
+  description: string;
+}
+
+const { title, description } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+
+// JSON-LD carries only facts approved in the Master Spec. Phone, full
+// street address, and areaServed are open items (#8, #17) and are omitted
+// until verified — do not add provisional values here.
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'LocalBusiness',
+  name: 'Seamless Point of Care',
+  alternateName: 'Seamless POC',
+  description:
+    'Clinical technology installation and mounting for hospitals: wall-mounted workstations, carts, cabinets, displays, and cable management — selected, supplied, installed, and maintained.',
+  url: 'https://www.seamlesspoc.com',
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: 'Tucker',
+    addressRegion: 'GA',
+    addressCountry: 'US',
+  },
+  parentOrganization: {
+    '@type': 'Organization',
+    name: 'IRG of Georgia',
+  },
+};
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link
+      rel="preload"
+      href="/fonts/instrument-sans-latin-wght-normal.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <Header />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

@@ -1,0 +1,68 @@
+---
+// The 6-step process strip (Master Spec §4.4). Steps are fixed.
+const steps = [
+  { title: 'Survey', text: 'We walk the space and measure before we quote.' },
+  { title: 'Recommend', text: 'The right hardware for the room — try it first.' },
+  { title: 'One quote', text: 'Hardware and installation on a single quote.' },
+  { title: 'Schedule around care', text: 'Timing set with your unit, not against it.' },
+  { title: 'Install after hours', text: 'Live clinical environments, after hours.' },
+  { title: 'Maintain', text: 'Service for the life of the equipment.' },
+];
+---
+
+<ol class="process-strip">
+  {
+    steps.map((step, i) => (
+      <li>
+        <span class="step-number num">{i + 1}</span>
+        <h3>{step.title}</h3>
+        <p class="text-secondary">{step.text}</p>
+      </li>
+    ))
+  }
+</ol>
+
+<style>
+  .process-strip {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-3);
+    counter-reset: step;
+  }
+
+  @media (min-width: 640px) {
+    .process-strip {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .process-strip {
+      grid-template-columns: repeat(6, 1fr);
+    }
+  }
+
+  .process-strip li {
+    border-block-start: 2px solid var(--color-primary);
+    padding-block-start: var(--space-2);
+  }
+
+  .step-number {
+    display: block;
+    font-size: var(--text-sm);
+    color: var(--color-accent-dk);
+    margin-block-end: 0.25rem;
+  }
+
+  .process-strip h3 {
+    font-size: var(--text-base);
+    margin-block-end: 0.25rem;
+  }
+
+  .process-strip p {
+    font-size: var(--text-sm);
+    line-height: 1.45;
+  }
+</style>

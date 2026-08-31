@@ -1,0 +1,16 @@
+---
+// Labeled placeholder per design-tokens §5. Doubles as the shot list for
+// the photography shoot. Pages presented as launch-ready contain zero of
+// these — the pre-ship check enforces it.
+interface Props {
+  shot: string;
+  ratio?: '4x3' | '3x2' | '1x1';
+  class?: string;
+}
+
+const { shot, ratio = '4x3', class: className = '' } = Astro.props;
+---
+
+<div class={`photo-placeholder ratio-${ratio} ${className}`}>
+  <p>PHOTO-PLACEHOLDER: {shot}</p>
+</div>

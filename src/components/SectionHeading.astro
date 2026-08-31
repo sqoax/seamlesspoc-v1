@@ -1,0 +1,27 @@
+---
+interface Props {
+  kicker?: string;
+  heading: string;
+  lead?: string;
+  level?: 'h2' | 'h3';
+}
+
+const { kicker, heading, lead, level = 'h2' } = Astro.props;
+const Tag = level;
+---
+
+<div class="section-heading">
+  {kicker && <span class="kicker">{kicker}</span>}
+  <Tag>{heading}</Tag>
+  {lead && <p class="lead text-secondary">{lead}</p>}
+</div>
+
+<style>
+  .section-heading {
+    margin-block-end: var(--space-4);
+  }
+
+  .section-heading .lead {
+    margin-block-start: var(--space-2);
+  }
+</style>

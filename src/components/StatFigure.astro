@@ -1,0 +1,36 @@
+---
+// Proof figure with tabular numerals. Renders only verified numbers;
+// callers must not pass unverified values.
+interface Props {
+  value: string;
+  label: string;
+}
+
+const { value, label } = Astro.props;
+---
+
+<div class="stat-figure">
+  <strong class="num">{value}</strong>
+  <span>{label}</span>
+</div>
+
+<style>
+  .stat-figure {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    border-block-start: 2px solid var(--color-accent);
+    padding-block-start: var(--space-2);
+  }
+
+  .stat-figure strong {
+    font-size: var(--text-xl);
+    line-height: 1.1;
+    color: var(--color-primary);
+  }
+
+  .stat-figure span {
+    font-size: var(--text-sm);
+    color: var(--color-ink-2);
+  }
+</style>

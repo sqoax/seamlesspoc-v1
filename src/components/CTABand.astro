@@ -1,0 +1,40 @@
+---
+// Final CTA band (Master Spec §4.9). Dark section — counts toward the
+// two-dark-sections-per-page maximum alongside the footer.
+interface Props {
+  heading?: string;
+}
+
+const {
+  heading = "Tell us what you're trying to accomplish. We'll survey the space and give you one clear quote.",
+} = Astro.props;
+---
+
+<section class="section section-dark cta-band">
+  <div class="container">
+    <h2>{heading}</h2>
+    <div class="cta-actions">
+      <a class="btn btn-primary" href="/start-a-project">Start a project</a>
+      <span class="cta-phone num">⟦VERIFY: phone⟧</span>
+    </div>
+  </div>
+</section>
+
+<style>
+  .cta-band h2 {
+    max-width: 38ch;
+    margin-block-end: var(--space-3);
+  }
+
+  .cta-actions {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+  }
+
+  .cta-phone {
+    font-size: var(--text-lg);
+    color: var(--color-rule);
+  }
+</style>
