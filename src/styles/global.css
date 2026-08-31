@@ -1,8 +1,10 @@
 /* ==========================================================================
    Seamless Point of Care — global stylesheet
-   Tokens per seamless-poc-frontend skill references/design-tokens.md.
-   Color + type values are PROVISIONAL until reconciled with the real logo
-   files (Master Spec open item #1).
+   Structure per seamless-poc-frontend skill references/design-tokens.md.
+   Colors reconciled to the existing brand palette (Hiatt, Aug 2026):
+   #212A49 navy · #3D7CA1 blue · #96CA4F green · #C1C5CB gray.
+   Logo SVG still pending (Master Spec open item #1) — type remains
+   PROVISIONAL until the lockup is supplied.
    ========================================================================== */
 
 /* --------------------------------------------------------------------------
@@ -20,25 +22,33 @@
    2. Tokens
    -------------------------------------------------------------------------- */
 :root {
-  /* Neutrals — warm, papery. Backgrounds recede so photography carries. */
-  --color-paper:      #F7F4EF;
-  --color-paper-2:    #EFEAE2;
+  /* Neutrals — near-white, cool to sit with the brand gray. Backgrounds
+     recede so photography carries. */
+  --color-paper:      #F8F9FA;
+  --color-paper-2:    #EDF0F3;
   --color-white:      #FFFFFF;
-  --color-ink:        #1C1F1D;
-  --color-ink-2:      #4A4F4B;
-  --color-rule:       #D8D2C7;
+  --color-ink:        #212A49;  /* brand navy — primary text + dark sections */
+  --color-ink-2:      #4E5768;
+  --color-rule:       #C1C5CB;  /* brand gray — rules, borders */
 
-  /* Primary — PROVISIONAL deep spruce green. */
-  --color-primary:    #1E3A31;
-  --color-primary-2:  #2C5245;
+  /* Primary — brand blue. The main interface color: buttons, links,
+     kickers, interactive emphasis. */
+  --color-primary:    #3D7CA1;
+  --color-primary-2:  #326586;  /* hover, and the AA-safer small-text variant */
 
-  /* Accent — PROVISIONAL warm copper. CTAs and small proof highlights only. */
-  --color-accent:     #B4562A;
-  --color-accent-dk:  #96461F;
+  /* Navy surfaces — footer and final CTA band. */
+  --color-navy:       #212A49;
+  --color-navy-2:     #32406B;  /* dividers on navy */
+
+  /* Accent — brand green. Sparingly: small non-text highlights and status
+     only. Fails AA as text on light backgrounds — use --color-accent-dk
+     for any accent-colored text. */
+  --color-accent:     #96CA4F;
+  --color-accent-dk:  #4F7A1F;
 
   /* Feedback */
-  --color-error:      #9C2B21;
-  --color-success:    #2C5245;
+  --color-error:      #A8342A;
+  --color-success:    #4F7A1F;
 
   /* Type scale */
   --text-xs:   0.8125rem;
@@ -111,13 +121,13 @@ a:hover { color: var(--color-primary-2); }
 ul, ol { padding-inline-start: 1.25rem; }
 
 :focus-visible {
-  outline: 2px solid var(--color-accent-dk);
+  outline: 2px solid var(--color-primary-2);
   outline-offset: 2px;
 }
 
 ::selection {
-  background: var(--color-primary);
-  color: var(--color-paper);
+  background: var(--color-navy);
+  color: var(--color-white);
 }
 
 .skip-link {
@@ -149,7 +159,7 @@ ul, ol { padding-inline-start: 1.25rem; }
   font-weight: 600;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--color-accent-dk);
+  color: var(--color-primary-2);
   margin-block-end: var(--space-1);
 }
 
@@ -203,7 +213,7 @@ ul, ol { padding-inline-start: 1.25rem; }
 .section-alt { background: var(--color-paper-2); }
 
 .section-dark {
-  background: var(--color-primary);
+  background: var(--color-navy);
   color: var(--color-paper);
 }
 
@@ -232,15 +242,15 @@ ul, ol { padding-inline-start: 1.25rem; }
 }
 
 .btn-primary {
-  background: var(--color-accent);
-  border-color: var(--color-accent);
+  background: var(--color-primary);
+  border-color: var(--color-primary);
   color: var(--color-white);
 }
 
 .btn-primary:hover,
 .btn-primary:focus-visible {
-  background: var(--color-accent-dk);
-  border-color: var(--color-accent-dk);
+  background: var(--color-primary-2);
+  border-color: var(--color-primary-2);
   color: var(--color-white);
 }
 
@@ -307,9 +317,9 @@ textarea {
 input:focus-visible,
 select:focus-visible,
 textarea:focus-visible {
-  outline: 2px solid var(--color-accent-dk);
+  outline: 2px solid var(--color-primary-2);
   outline-offset: 0;
-  border-color: var(--color-accent-dk);
+  border-color: var(--color-primary-2);
 }
 
 .field.has-error input,

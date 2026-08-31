@@ -1,5 +1,5 @@
-<!-- PROVISIONAL favicon. Replace from the reconciled brand kit (Master Spec open item #1) before launch. -->
+<!-- Interim favicon in brand navy. Replace with the mark from the logo SVG when supplied (Master Spec open item #1). -->
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <rect width="32" height="32" rx="2" fill="#1E3A31"/>
-  <text x="16" y="22" text-anchor="middle" font-family="system-ui, sans-serif" font-size="17" font-weight="650" fill="#F7F4EF">S</text>
+  <rect width="32" height="32" rx="2" fill="#212A49"/>
+  <text x="16" y="22" text-anchor="middle" font-family="system-ui, sans-serif" font-size="17" font-weight="650" fill="#FFFFFF">S</text>
 </svg>
