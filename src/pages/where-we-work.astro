@@ -1,0 +1,235 @@
+---
+import Base from '../layouts/Base.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import PhotoPlaceholder from '../components/PhotoPlaceholder.astro';
+import CTABand from '../components/CTABand.astro';
+
+// Where We Work — single page per Master Spec §3 and page-templates §7:
+// care environments grid + service-area statement. No per-environment
+// subpages. The service-area map and state list are gated on open item #8
+// (service states + travel policy) and render as a flagged placeholder.
+
+const environments = [
+  {
+    title: 'Patient rooms & ICU',
+    text: 'Wall arms, patient TVs, and displays installed around occupied rooms — after hours, with contained work areas and a walk-through before we start.',
+    shot: 'finished patient room, wall arm and TV installed, bed unoccupied, floor clear',
+  },
+  {
+    title: 'OR & anesthesia',
+    text: 'Equipment mounts and displays in the most controlled rooms in the building, scheduled with perioperative leadership around the case calendar.',
+    shot: 'OR with equipment mounts installed, no procedure in progress, no PHI',
+  },
+  {
+    title: 'Labor & delivery',
+    text: 'Workstations and tracking boards placed for fast-moving care, installed without interrupting the unit.',
+    shot: 'L&D nurse station with tracking board, no readable patient data',
+  },
+  {
+    title: 'Emergency department',
+    text: 'Tracking boards, charting stations, and cable cleanup in a department that never closes. We work around the census, not through it.',
+    shot: 'ED corridor charting station, cables concealed, floor clear',
+  },
+  {
+    title: 'Nurse stations',
+    text: 'Charting workstations, displays, and the cable management that keeps counters and floors clear.',
+    shot: 'nurse station with mounted workstations, counter and floor free of cable',
+  },
+  {
+    title: 'Admissions & registration',
+    text: 'Desktop workstations and signage for the places where patients first check in.',
+    shot: 'registration desk with desktop workstation, patient side visible, tidy cabling',
+  },
+  {
+    title: 'Clinics & ambulatory',
+    text: 'Exam-room workstations and wall cabinets across outpatient locations, scheduled clinic by clinic.',
+    shot: 'exam room with wall cabinet workstation, shown closed',
+  },
+  {
+    title: 'Conference & education',
+    text: 'Displays and conference-room technology for the rooms where staff meet and train.',
+    shot: 'hospital conference room with display installed, cabling concealed',
+  },
+  {
+    title: 'New construction',
+    text: 'Point-of-care hardware sequenced with the build — coordinated with your construction team so installs land with the schedule, not after it.',
+    shot: 'unit under construction, mounts being installed before opening day',
+  },
+];
+---
+
+<Base
+  title="Hospital installation across care environments in the Southeast | Seamless Point of Care"
+  description="Seamless Point of Care installs and maintains point-of-care hardware in patient rooms, ICU, OR, ED, L&D, nurse stations, clinics, and new construction — based in Tucker, Georgia."
+>
+  <!-- Page header -->
+  <section class="page-header">
+    <div class="container">
+      <div class="header-copy">
+        <span class="kicker">Where we work</span>
+        <h1>Every environment where care happens.</h1>
+        <p class="lead text-secondary">
+          The rooms differ; the discipline doesn&rsquo;t. Live units, after
+          hours, contained work areas, and hardware that holds up — from the
+          ICU to the conference room.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Care environments grid -->
+  <section class="section" aria-labelledby="environments-heading">
+    <div class="container">
+      <SectionHeading
+        kicker="Care environments"
+        heading="Where the work happens"
+      />
+      <div class="env-grid">
+        {
+          environments.map((env) => (
+            <article class="env-card card">
+              <PhotoPlaceholder shot={env.shot} ratio="4x3" />
+              <div class="env-body">
+                <h3>{env.title}</h3>
+                <p class="text-secondary">{env.text}</p>
+              </div>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Service area -->
+  <section class="section section-alt" aria-labelledby="area-heading">
+    <div class="container area-grid">
+      <div class="area-copy">
+        <SectionHeading
+          kicker="Service area"
+          heading="Based in Tucker, Georgia. Working across the Southeast."
+          lead="Crews dispatch from our Tucker headquarters to hospitals across the region."
+        />
+        <p class="area-verify text-secondary">
+          ⟦VERIFY: service states and travel policy — open item #8. The state
+          list, map, and any travel commitments render only once confirmed.⟧
+        </p>
+        <p class="system-note">
+          Working with a system that spans multiple facilities? We scope and
+          schedule across sites under one agreement, with one point of
+          contact.
+        </p>
+      </div>
+      <div class="map-placeholder" role="img" aria-label="Service-area map pending verified state list">
+        <p>
+          MAP-PLACEHOLDER: static SVG map of verified service states with
+          Tucker, GA marker — no map library. Renders when open item #8 is
+          confirmed.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <CTABand />
+</Base>
+
+<style>
+  .page-header {
+    padding-block: var(--space-5) var(--space-4);
+    border-block-end: 1px solid var(--color-rule);
+  }
+
+  .header-copy h1 {
+    margin-block-end: var(--space-2);
+    max-width: 24ch;
+  }
+
+  .header-copy .lead {
+    max-width: 52ch;
+  }
+
+  /* Environments grid */
+  .env-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-3);
+  }
+
+  @media (min-width: 640px) {
+    .env-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .env-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .env-card {
+    overflow: hidden;
+  }
+
+  .env-body {
+    padding: var(--space-2);
+  }
+
+  .env-body h3 {
+    font-size: var(--text-base);
+    margin-block-end: 0.25rem;
+  }
+
+  .env-body p {
+    font-size: var(--text-sm);
+    line-height: 1.5;
+  }
+
+  /* Service area */
+  .area-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+    align-items: start;
+  }
+
+  @media (min-width: 900px) {
+    .area-grid {
+      grid-template-columns: 1.1fr 1fr;
+      gap: var(--space-5);
+    }
+  }
+
+  .area-copy :global(.section-heading) {
+    margin-block-end: var(--space-3);
+  }
+
+  .area-verify {
+    font-size: var(--text-sm);
+    margin-block-end: var(--space-3);
+  }
+
+  .system-note {
+    padding-block-start: var(--space-3);
+    border-block-start: 1px solid var(--color-rule);
+    font-size: var(--text-base);
+    max-width: 48ch;
+  }
+
+  .map-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    aspect-ratio: 4 / 3;
+    background: var(--color-white);
+    border: 1px dashed var(--color-rule);
+    border-radius: var(--radius);
+    color: var(--color-ink-2);
+    font-size: var(--text-xs);
+    padding: var(--space-3);
+  }
+
+  .map-placeholder p {
+    max-width: 34ch;
+  }
+</style>
