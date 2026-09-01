@@ -1,7 +1,11 @@
 ---
+import { Image } from 'astro:assets';
+import logo from '../assets/seamless-logo.png';
+
 // Footer per page-templates §1. Contact details (address, phone, email) are
 // open item #17 (VERIFY); manufacturer logos require verified authorizations
-// (open item #5) and are omitted until then.
+// (open item #5) and are omitted until then. The supplied logo is dark on
+// transparent, so it sits on a white chip to stay legible on navy.
 const year = new Date().getFullYear();
 
 const columns = [
@@ -40,7 +44,15 @@ const columns = [
   <div class="container">
     <div class="footer-grid">
       <div class="footer-brand">
-        <p class="footer-name">Seamless Point of Care</p>
+        <a class="footer-logo" href="/">
+          <Image
+            src={logo}
+            alt="Seamless Point of Care"
+            width={400}
+            densities={[1, 2]}
+            loading="lazy"
+          />
+        </a>
         <p class="footer-descriptor">Clinical technology installation &amp; mounting</p>
         <address class="footer-contact">
           Tucker, Georgia<br />
@@ -99,9 +111,18 @@ const columns = [
     }
   }
 
-  .footer-name {
-    font-weight: 650;
-    font-size: var(--text-base);
+  .footer-logo {
+    display: inline-block;
+    background: var(--color-white);
+    padding: 0.625rem 0.875rem;
+    border-radius: var(--radius);
+    margin-block-end: var(--space-2);
+  }
+
+  .footer-logo img {
+    display: block;
+    height: 2.25rem;
+    width: auto;
   }
 
   .footer-descriptor {
