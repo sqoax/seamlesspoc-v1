@@ -14,19 +14,22 @@ const verification = {
 
 const projects = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/projects' }),
-  schema: z.object({
-    title: z.string(),
-    system: z.string(),
-    states: z.array(z.string()),
-    scope_number: z.string(), // e.g. "412 mounts"
-    scope: z.string(),
-    constraints: z.string(),
-    timeline: z.string(),
-    quote: z.string().optional(),
-    quote_attribution: z.string().optional(),
-    images: z.array(z.object({ src: z.string(), alt: z.string() })).default([]),
-    ...verification,
-  }),
+  schema: ({ image }) =>
+    z.object({
+      title: z.string(),
+      system: z.string(),
+      states: z.array(z.string()),
+      scope_number: z.string(), // e.g. "412 mounts"
+      scope: z.string(),
+      constraints: z.string(),
+      timeline: z.string(),
+      quote: z.string().optional(),
+      quote_attribution: z.string().optional(),
+      images: z
+        .array(z.object({ src: image(), alt: z.string() }))
+        .default([]),
+      ...verification,
+    }),
 });
 
 const testimonials = defineCollection({

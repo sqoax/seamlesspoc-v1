@@ -1,0 +1,206 @@
+---
+import { getCollection } from 'astro:content';
+import { Image } from 'astro:assets';
+import Base from '../../layouts/Base.astro';
+import SectionHeading from '../../components/SectionHeading.astro';
+import CTABand from '../../components/CTABand.astro';
+
+// Projects index — Master Spec §3: index + however many case studies are
+// verified AND permitted at launch. Quality over count; no filler. The
+// hard gate: entries render only with verified === true and
+// permission === true explicitly (content-rules §4). Draft entries may
+// exist in src/content/projects/ but never render. Never bypass this
+// filter "temporarily."
+const projects = (await getCollection('projects'))
+  .filter((p) => p.data.verified === true && p.data.permission === true)
+  .sort((a, b) => a.data.title.localeCompare(b.data.title));
+---
+
+<Base
+  title="Hospital installation case studies | Seamless Point of Care"
+  description="Named, dated, and measured installation projects in hospitals across the Southeast — published once the health system has verified the numbers and approved the use of its name."
+>
+  <!-- Page header -->
+  <section class="page-header">
+    <div class="container">
+      <div class="header-copy">
+        <span class="kicker">Projects</span>
+        <h1>Named, dated, and measured.</h1>
+        <p class="lead text-secondary">
+          Every case study here is real work for a named health system, with
+          numbers the customer has verified and permission to tell it. We
+          publish quality over count.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Case studies (gated) -->
+  <section class="section" aria-labelledby="case-studies">
+    <div class="container">
+      {
+        projects.length > 0 ? (
+          <div class="grid grid-3">
+            {projects.map((p) => (
+              <a class="project-card card" href={`/projects/${p.id}`}>
+                {p.data.images[0] ? (
+                  <Image
+                    src={p.data.images[0].src}
+                    alt={p.data.images[0].alt}
+                    width={800}
+                    class="project-card-photo"
+                  />
+                ) : (
+                  <div class="photo-placeholder ratio-4x3">
+                    <p>PHOTO-PLACEHOLDER: lead install photo for {p.data.title}</p>
+                  </div>
+                )}
+                <div class="project-card-body">
+                  <p class="project-number num">{p.data.scope_number}</p>
+                  <h2>{p.data.title}</h2>
+                  <p class="text-secondary">{p.data.system}</p>
+                </div>
+              </a>
+            ))}
+          </div>
+        ) : (
+          <div class="pending-block">
+            <SectionHeading
+              kicker="In verification"
+              heading="Case studies publish as they clear two gates"
+            />
+            <div class="pending-gates">
+              <div class="gate card">
+                <span class="gate-number num">1</span>
+                <h3>Verified numbers</h3>
+                <p class="text-secondary">
+                  Scope, timeline, and results confirmed against project
+                  records — not memory.
+                </p>
+              </div>
+              <div class="gate card">
+                <span class="gate-number num">2</span>
+                <h3>Written permission</h3>
+                <p class="text-secondary">
+                  The health system approves the use of its name before
+                  anything appears here.
+                </p>
+              </div>
+            </div>
+            <p class="pending-note text-secondary">
+              ⟦VERIFY: case studies pending — open item #4, Gate 0 item 2.
+              Target three; two excellent beats three thin.⟧
+            </p>
+            <p class="pending-cta">
+              Want references before then?
+              <a href="/start-a-project">Start a project</a> and ask — we&rsquo;d
+              rather connect you with a customer than paraphrase one.
+            </p>
+          </div>
+        )
+      }
+    </div>
+  </section>
+
+  <CTABand />
+</Base>
+
+<style>
+  .page-header {
+    padding-block: var(--space-5) var(--space-4);
+    border-block-end: 1px solid var(--color-rule);
+  }
+
+  .header-copy h1 {
+    margin-block-end: var(--space-2);
+    max-width: 24ch;
+  }
+
+  .header-copy .lead {
+    max-width: 54ch;
+  }
+
+  /* Rendered cards */
+  .project-card {
+    display: block;
+    text-decoration: none;
+    color: var(--color-ink);
+    overflow: hidden;
+  }
+
+  .project-card-photo {
+    width: 100%;
+    height: auto;
+  }
+
+  .project-card-body {
+    padding: var(--space-2);
+  }
+
+  .project-number {
+    font-size: var(--text-lg);
+    color: var(--color-accent-dk);
+    margin-block-end: 0.25rem;
+  }
+
+  .project-card h2 {
+    font-size: var(--text-base);
+    margin-block-end: 0.25rem;
+  }
+
+  .project-card:hover {
+    border-color: var(--color-primary);
+  }
+
+  /* Pending state */
+  .pending-block :global(.section-heading) {
+    margin-block-end: var(--space-3);
+  }
+
+  .pending-gates {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-3);
+    max-width: 44rem;
+  }
+
+  @media (min-width: 640px) {
+    .pending-gates {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .gate {
+    padding: var(--space-3);
+    border-style: dashed;
+  }
+
+  .gate-number {
+    display: block;
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--color-primary-2);
+    margin-block-end: 0.25rem;
+  }
+
+  .gate h3 {
+    font-size: var(--text-base);
+    margin-block-end: 0.25rem;
+  }
+
+  .gate p {
+    font-size: var(--text-sm);
+    line-height: 1.5;
+  }
+
+  .pending-note {
+    font-size: var(--text-xs);
+    margin-block-start: var(--space-3);
+  }
+
+  .pending-cta {
+    margin-block-start: var(--space-3);
+    font-size: var(--text-base);
+    max-width: 52ch;
+  }
+</style>
