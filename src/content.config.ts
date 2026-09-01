@@ -47,13 +47,14 @@ const testimonials = defineCollection({
 
 const customers = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/customers' }),
-  schema: z.object({
-    name: z.string(),
-    state: z.string(),
-    logo: z.string().optional(),
-    tenure_since: z.number().optional(),
-    ...verification,
-  }),
+  schema: ({ image }) =>
+    z.object({
+      name: z.string(),
+      state: z.string(),
+      logo: image().optional(),
+      tenure_since: z.number().optional(),
+      ...verification,
+    }),
 });
 
 const installs = defineCollection({

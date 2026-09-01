@@ -7,6 +7,7 @@ import ProblemEntry from '../components/ProblemEntry.astro';
 import ProcessStrip from '../components/ProcessStrip.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 import StatFigure from '../components/StatFigure.astro';
+import LogoWall from '../components/LogoWall.astro';
 import CTABand from '../components/CTABand.astro';
 
 // Homepage — 9 sections in the APPROVED order (Master Spec §4).
@@ -252,13 +253,7 @@ const behaviors = [
         heading="Health systems we work with"
         lead="Serving hospitals across the Southeast since ⟦VERIFY: year — open item #3⟧."
       />
-      <div class="logo-wall card">
-        <p class="text-secondary">
-          Customer names and logos render here only with verification and
-          written permission (open item #4). Nothing appears in this grid
-          until both are recorded.
-        </p>
-      </div>
+      <LogoWall />
     </div>
   </section>
 
@@ -416,19 +411,6 @@ const behaviors = [
     font-size: var(--text-lg);
     line-height: 1.5;
     max-width: 52ch;
-  }
-
-  /* Logo wall placeholder */
-  .logo-wall {
-    padding: var(--space-4);
-    border-style: dashed;
-    text-align: center;
-  }
-
-  .logo-wall p {
-    margin-inline: auto;
-    font-size: var(--text-sm);
-    max-width: 48ch;
   }
 
   /* Service band */
