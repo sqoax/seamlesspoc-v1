@@ -129,7 +129,8 @@ const currentPath = Astro.url.pathname;
     display: flex;
     align-items: center;
     gap: var(--space-3);
-    padding-block: 0.875rem;
+    /* 0.8125rem + 46px logo keeps the bar at its previous 72px height */
+    padding-block: 0.8125rem;
   }
 
   .brand {
@@ -139,13 +140,13 @@ const currentPath = Astro.url.pathname;
   }
 
   .brand img {
-    height: 2.375rem;
+    height: 2.875rem;
     width: auto;
   }
 
   @media (max-width: 900px) {
     .brand img {
-      height: 2rem;
+      height: 2.4375rem;
     }
   }
 
