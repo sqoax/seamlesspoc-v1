@@ -129,8 +129,9 @@ const currentPath = Astro.url.pathname;
     display: flex;
     align-items: center;
     gap: var(--space-3);
-    /* 0.8125rem + 46px logo keeps the bar at its previous 72px height */
-    padding-block: 0.8125rem;
+    /* 10px + 60px logo = 80px bar: the wordmark inside the lockup reads
+       ~30px, giving the mark real weight without an oversized header */
+    padding-block: 0.625rem;
   }
 
   .brand {
@@ -140,13 +141,13 @@ const currentPath = Astro.url.pathname;
   }
 
   .brand img {
-    height: 2.875rem;
+    height: 3.75rem;
     width: auto;
   }
 
   @media (max-width: 900px) {
     .brand img {
-      height: 2.4375rem;
+      height: 3rem;
     }
   }
 
