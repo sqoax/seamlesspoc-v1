@@ -7,8 +7,8 @@
 name: 'Tanner Health'
 state: 'Georgia'
 logo: '../../assets/logos/tanner-health.png'
-verified: false
-# verified_by:
-# verified_date:
-# permission is intentionally absent — absence means no permission.
+verified: true
+verified_by: 'Hiatt — approved in build session'
+verified_date: 2026-09-02
+permission: true
 ---
